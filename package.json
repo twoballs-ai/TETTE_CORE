@@ -1,0 +1,29 @@
+{
+  "name": "tette",
+  "version": "0.1.0",
+  "description": "JavaScript game engine",
+  "main": "./dist/tette.bundle.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development"
+  },
+  "keywords": [
+    "game",
+    "engine",
+    "javascript",
+    "2d",
+    "canvas"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-loader": "^9.0.0",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^5.0.0"
+  },
+  "dependencies": {
+    "gl-matrix": "^3.4.3"
+  }
+}
