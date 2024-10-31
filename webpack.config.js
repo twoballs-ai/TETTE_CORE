@@ -1,22 +1,56 @@
 const path = require('path');
 
-module.exports = {
-  entry: './TETTE_CORE/index.js', // Точка входа в сборку
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'tette.bundle.js', // Имя файла, который будет использовать пользователь
-    library: 'TETTE', // Экспортируемое имя глобальной переменной
-    libraryTarget: 'umd', // Universal Module Definition для использования в разных окружениях
+module.exports = [
+  {
+    // Конфигурация для сборки продакшн-бандла
+    entry: './src/index.js',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'tette.bundle.js',
+      library: 'TETTECore',
+      libraryTarget: 'umd',
+      globalObject: 'this'
+    },
+    mode: 'production',
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        }
+      ]
+    }
   },
-  module: {
-    rules: [
-      {
-        test: /\.js$/, // Обрабатываем все JS-файлы
-        exclude: /node_modules/, // Не включаем node_modules
-        use: {
-          loader: 'babel-loader',
-        },
-      },
-    ],
-  },
-};
+  {
+    // Конфигурация для сборки девелопмент-бандла (если нужно)
+    entry: './src/index.js',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'tette.dev.js',
+      library: 'TETTECore',
+      libraryTarget: 'umd',
+      globalObject: 'this'
+    },
+    mode: 'development',
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        }
+      ]
+    }
+  }
+];

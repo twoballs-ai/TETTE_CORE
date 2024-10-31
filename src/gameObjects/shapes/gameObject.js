@@ -22,7 +22,25 @@ export class GameObject {
       this.rigidBody = null;
     }
   }
+  serialize() {
+    return {
+      // Сериализуйте необходимые свойства
+      x: this.x,
+      y: this.y,
+      color: this.color,
+      // Добавьте другие свойства
+    };
+  }
 
+  static deserialize(data) {
+    const obj = new GameObject();
+    // Восстанавливаем свойства из данных
+    obj.x = data.x;
+    obj.y = data.y;
+    obj.color = data.color;
+    // Добавьте другие свойства
+    return obj;
+  }
   // Метод для обновления позиции объекта
   update(deltaTime) {
     if (this.rigidBody) {
