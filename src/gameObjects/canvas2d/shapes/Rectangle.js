@@ -1,4 +1,4 @@
-import { GameObject } from '../gameObject.js';
+import { GameObject } from '../Canvas2dGameObject.js';
 
 export class Rectangle extends GameObject {
   constructor(x, y, width, height = width, color, borderColor = null, borderWidth = 0, round = 0) {

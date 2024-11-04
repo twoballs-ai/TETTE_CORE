@@ -1,4 +1,4 @@
-import { GameObject } from '../gameObject.js';
+import { GameObject } from '../../canvas2d/Canvas2dGameObject.js';
 
 export class Star extends GameObject {
   constructor(x, y, radius, points, color = 'black', borderColor = null, borderWidth = 0) {

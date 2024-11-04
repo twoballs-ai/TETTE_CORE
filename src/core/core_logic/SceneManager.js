@@ -54,6 +54,7 @@ export class SceneManager {
 
     if (this.currentScene) {
       const sortedGameObjects = this.currentScene.gameObjects.sort((a, b) => a.layer - b.layer);
+      console.log(`Рендеринг сцены "${this.currentScene.name}" с объектами:`, sortedGameObjects);
 
       // Рендерим каждый объект
       sortedGameObjects.forEach((object) => {

@@ -1,4 +1,4 @@
-import { GameObject } from '../gameObject.js';
+import { GameObject } from '../Canvas2dGameObject.js';
 
 export class Circle extends GameObject {
   constructor(x, y, radius, startAngle = 0, endAngle = 2 * Math.PI, color = 'black', borderColor = null, borderWidth = 0) {

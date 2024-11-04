@@ -1,6 +1,6 @@
 import { RigidBody2d } from '../../core/physics/RigidBody2d.js';
 
-export class GameObject {
+export class Canvas2dGameObject {
   constructor({ x, y, width, height, color, enablePhysics = false, isStatic = false, layer = 0 }) {
     this.x = x;  // Позиция по X
     this.y = y;  // Позиция по Y

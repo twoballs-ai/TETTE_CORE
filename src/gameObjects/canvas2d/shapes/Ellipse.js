@@ -1,4 +1,4 @@
-import { GameObject } from '../gameObject.js';
+import { GameObject } from '../Canvas2dGameObject.js';
 
 export class Ellipse extends GameObject {
   constructor(x, y, rX, rY, rot, start, end, color, borderColor = null, borderWidth = 0) {

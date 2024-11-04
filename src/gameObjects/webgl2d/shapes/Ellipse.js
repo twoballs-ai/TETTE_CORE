@@ -1,21 +1,23 @@
-import { GameObject } from '../gameObject.js';
+import { GameObject } from '../../canvas2d/Canvas2dGameObject.js';
 
-export class Circle extends GameObject {
-  constructor(x, y, radius, startAngle = 0, endAngle = 2 * Math.PI, color, borderColor = null, borderWidth = 0) {
-    super(x, y, radius * 2, radius * 2, color);
-    this.radius = radius;
-    this.startAngle = startAngle;
-    this.endAngle = endAngle;
+export class Ellipse extends GameObject {
+  constructor(x, y, rX, rY, rot = 0, start = 0, end = 2 * Math.PI, color, borderColor = null, borderWidth = 0) {
+    super(x, y, rX * 2, rY * 2, color); // Размеры эллипса по осям X и Y
+    this.rX = rX;
+    this.rY = rY;
+    this.rot = rot; // Угол поворота эллипса
+    this.start = start;
+    this.end = end;
     this.borderColor = borderColor;
     this.borderWidth = borderWidth;
 
-    // Определяем вершины в локальной системе координат
-    this.vertices = this.calculateCircleVertices();
+    // Вычисляем массив вершин эллипса в локальной системе координат
+    this.vertices = this.calculateEllipseVertices();
 
     // Определяем цвет для каждой вершины
     this.colors = [];
     for (let i = 0; i < this.vertices.length / 2; i++) {
-      this.colors.push(...this.color, 1.0);  // Добавляем альфа-канал
+      this.colors.push(...this.color, 1.0); // Добавляем альфа-канал
     }
 
     // Буферы для вершин и цветов
@@ -23,18 +25,18 @@ export class Circle extends GameObject {
     this.colorBuffer = null;
   }
 
-  // Метод для вычисления вершин круга в локальной системе координат
-  calculateCircleVertices() {
+  // Метод для вычисления вершин эллипса в локальной системе координат
+  calculateEllipseVertices() {
     const vertices = [];
-    const steps = 100; // Количество точек для аппроксимации круга
+    const steps = 100; // Количество точек для аппроксимации эллипса
 
-    // Центральная точка круга
-    vertices.push(0, 0);  // В локальной системе координат (0, 0)
+    // Центральная точка эллипса
+    vertices.push(0, 0); // Локальная координата (0, 0)
 
-    // Вычисляем вершины по окружности (локальные координаты)
-    for (let t = this.startAngle; t <= this.endAngle; t += (this.endAngle - this.startAngle) / steps) {
-      const x = this.radius * Math.cos(t);
-      const y = this.radius * Math.sin(t);
+    // Вычисляем вершины эллипса по окружности (локальные координаты)
+    for (let t = this.start; t <= this.end; t += (this.end - this.start) / steps) {
+      const x = this.rX * Math.cos(t) * Math.cos(this.rot) - this.rY * Math.sin(t) * Math.sin(this.rot);
+      const y = this.rX * Math.cos(t) * Math.sin(this.rot) + this.rY * Math.sin(t) * Math.cos(this.rot);
       vertices.push(x, y);
     }
 
@@ -85,12 +87,12 @@ export class Circle extends GameObject {
     const uTransform = gl.getUniformLocation(shaderProgram, 'uTransform');
     gl.uniformMatrix4fv(uTransform, false, new Float32Array(this.getTransformationMatrix()));
 
-    // Рисуем круг
+    // Рисуем эллипс с использованием TRIANGLE_FAN
     gl.drawArrays(gl.TRIANGLE_FAN, 0, this.vertices.length / 2);
   }
 
   // Переопределяем метод render для совместимости, если вызов через Canvas
   render(context) {
-    console.warn('render() is not implemented for WebGL Circle.');
+    console.warn('render() is not implemented for WebGL Ellipse.');
   }
 }

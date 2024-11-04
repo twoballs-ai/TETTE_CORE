@@ -1,5 +1,6 @@
 export function ColorMixin(color, renderType) {
     // Обработка для 2D Canvas
+    console.log(renderType)
     if (renderType === '2d') {
       if (typeof color === 'string') {
         if (color in colorNames) {
@@ -11,7 +12,7 @@ export function ColorMixin(color, renderType) {
     }
   
     // Обработка для WebGL и WebGPU (нормализованные RGB значения)
-    if (renderType === 'webgl' || renderType === 'webgpu') {
+    if (renderType === 'webgl2d' || renderType === 'webgpu') {
       // Если это строка в формате 'rgb(51, 51, 51)'
       if (typeof color === 'string' && color.startsWith('rgb(')) {
         return parseRgbString(color);

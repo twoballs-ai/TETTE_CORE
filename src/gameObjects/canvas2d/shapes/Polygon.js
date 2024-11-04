@@ -1,4 +1,4 @@
-import { GameObject } from '../gameObject.js';
+import { GameObject } from '../Canvas2dGameObject.js';
 
 export class Polygon extends GameObject {
   constructor(vertices, color = 'black', borderColor = null, borderWidth = 0) {

@@ -1,4 +1,4 @@
-import { GameObject } from '../gameObject.js';
+import { GameObject } from '../Canvas2dGameObject.js';
 
 export class Line extends GameObject {
   constructor(x1, y1, x2, y2, color = 'black', widthline = 1, lineRounded = 'butt') {

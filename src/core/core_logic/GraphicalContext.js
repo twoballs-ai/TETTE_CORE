@@ -4,6 +4,7 @@ import { WebGPURenderer } from '../renderers/WebGPURenderer.js';
 
 export class GraphicalContext {
     constructor(canvasId = 'canvas', type = '2d', backgroundColor = 'black', width = 900, height = 600) {
+        this.type = type;
         this.canvas = document.getElementById(canvasId);
         if (!this.canvas) {
             throw new Error(`Canvas with id ${canvasId} not found!`);
@@ -20,8 +21,8 @@ export class GraphicalContext {
     initializeContext(type) {
         if (type === '2d') {
             return this.canvas.getContext('2d');
-        } else if (type === 'webgl') {
-            return this.canvas.getContext('webgl') || this.canvas.getContext('experimental-webgl');
+        } else if (type === 'webgl2d') {
+            return this.canvas.getContext('webgl2d') || this.canvas.getContext('experimental-webgl');
         } else if (type === 'webgpu') {
             if (navigator.gpu) {
                 return this.canvas.getContext('webgpu');
@@ -36,7 +37,7 @@ export class GraphicalContext {
     createRenderer(type, backgroundColor) {
         if (type === '2d') {
             return new CanvasRenderer(this, backgroundColor); // Передаем цвет фона
-        } else if (type === 'webgl') {
+        } else if (type === 'webgl2d') {
             return new WebGLRenderer(this, backgroundColor); // Передаем цвет фона
         } else if (type === 'webgpu') {
             return new WebGPURenderer(this, backgroundColor); // Передаем цвет фона

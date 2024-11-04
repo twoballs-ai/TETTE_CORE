@@ -1,4 +1,4 @@
-import { GameObject } from '../shapes/gameObject.js';
+import { GameObject } from '../canvas2d/Canvas2dGameObject.js';
 
 export class SpriteGrid extends GameObject {
   constructor({

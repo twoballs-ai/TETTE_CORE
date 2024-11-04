@@ -1,15 +1,16 @@
-import { Rectangle } from './Rectangle.js';
-import { Circle } from './Circle.js';
-import { Ellipse } from './Ellipse.js';
-import { Text } from './Text.js';
-import { Sprite } from './Sprite.js'; // Обновлённый класс Sprite
-import { Line } from './Line.js';
-import { Polygon } from './Polygon.js';
-import { BezierCurve } from './BezierCurve.js';
-import { Star } from './Star.js';
-import { ColorMixin } from '../../../core/core_logic/ColorMixin.js'; // Убедитесь в правильности пути
-import { SpriteGrid } from '../../utils/SpriteGrid.js'; // Импортируем компонент сетки спрайтов
+import { Rectangle } from './shapes/Rectangle.js';
+import { Circle } from './shapes/Circle.js';
+import { Ellipse } from './shapes/Ellipse.js';
+import { Text } from './shapes/Text.js';
+import { Sprite } from './shapes/Sprite.js'; // Обновлённый класс Sprite
+import { Line } from './shapes/Line.js';
+import { Polygon } from './shapes/Polygon.js';
+import { BezierCurve } from './shapes/BezierCurve.js';
+import { Star } from './shapes/Star.js';
+import { ColorMixin } from '../../core/core_logic/ColorMixin.js'; // Убедитесь в правильности пути
+import { SpriteGrid } from '../utils/SpriteGrid.js'; // Импортируем компонент сетки спрайтов
 export function getShapes(renderType) {
+  console.log("s")
   return {
     // Функция для создания квадрата
     square: function(params) {

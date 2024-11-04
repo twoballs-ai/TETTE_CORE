@@ -1,4 +1,4 @@
-import { GameObject } from '../gameObject.js';
+import { GameObject } from '../Canvas2dGameObject.js';
 export class Sprite extends GameObject {
   constructor(params) {
     super({

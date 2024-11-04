@@ -5,98 +5,97 @@ import { ColorMixin } from './ColorMixin.js';
 
 export class Core {
   constructor({ canvasId, renderType = '2d', backgroundColor = 'black', sceneManager, width = 900, height = 600 }) {
+    this.renderType = renderType;
+    console.log(renderType)
     const normalizedBackgroundColor = ColorMixin(backgroundColor, renderType);
 
-    // Инициализация графического контекста и рендерера
     this.graphicalContext = new GraphicalContext(canvasId, renderType, normalizedBackgroundColor, width, height);
-    this.renderer = this.graphicalContext.getRenderer(); // Получаем рендерер из графического контекста
+    this.renderer = this.graphicalContext.getRenderer();
     this.sceneManager = sceneManager;
     this.lastTime = 0;
-    this.loop = this.loop.bind(this); // Привязываем метод loop к текущему контексту
+    this.loop = this.loop.bind(this);
     this.gameTypeInstance = null;
-    this.isGuiMode = false; // Флаг режима GUI
+    this.isGuiMode = false;
+    this.animationFrameId = null; // Добавлено
   }
 
-  // Устанавливаем тип игры
   setGameType(gameType) {
     if (gameType) {
       console.log(`Установка типа игры: ${gameType}`);
-      this.gameTypeInstance = new GameTypeFactory(this).loadGameType(gameType); // Загружаем тип игры
+      this.gameTypeInstance = new GameTypeFactory(this).loadGameType(gameType);
       if (!this.gameTypeInstance) {
         console.error(`Ошибка: тип игры ${gameType} не загружен.`);
       }
     }
   }
 
-  // Включаем режим GUI
+  getSceneManager() {
+    return this.sceneManager;
+  }
+
   enableGuiMode() {
     this.isGuiMode = true;
     console.log('Режим GUI активирован.');
-    this.render(); // Обновляем рендер вручную для отображения статической сцены
+    this.render();
   }
 
-  // Выключаем режим GUI
   disableGuiMode() {
     this.isGuiMode = false;
     console.log('Режим GUI деактивирован.');
-    this.start(); // Перезапуск игрового цикла при выходе из режима GUI
+    this.start();
   }
 
-  // Старт игрового цикла
   async start() {
-    // Инициализация рендерера (если это необходимо)
     if (typeof this.renderer.init === 'function') {
       await this.renderer.init();
     }
 
-    // Запуск типа игры, если он определен
     if (this.gameTypeInstance && typeof this.gameTypeInstance.start === 'function') {
       this.gameTypeInstance.start();
     }
 
-    // Запуск игрового цикла
     if (!this.isGuiMode) {
-      requestAnimationFrame(this.loop);
+      this.animationFrameId = requestAnimationFrame(this.loop); // Изменено
     }
   }
 
-  // Основной игровой цикл
   loop(timestamp) {
     if (!this.isGuiMode) {
-      const deltaTime = timestamp - this.lastTime; // Рассчитываем дельту времени между кадрами
+      const deltaTime = timestamp - this.lastTime;
       this.lastTime = timestamp;
 
-      // Обновляем тип игры (если он установлен)
       if (this.gameTypeInstance && this.gameTypeInstance.update) {
         this.gameTypeInstance.update(deltaTime);
       }
 
-      // Обновляем менеджер сцен
       this.sceneManager.update(deltaTime);
 
-      // Рендерим текущую сцену через SceneManager
-      this.renderer.clear(); // Очищаем экран
-      this.sceneManager.render(this.renderer.context); // Рендерим сцену
+      this.renderer.clear();
+      this.sceneManager.render(this.renderer.context);
 
       // Продолжаем цикл
-      requestAnimationFrame(this.loop);
+      this.animationFrameId = requestAnimationFrame(this.loop); // Изменено
     }
   }
 
-  // Метод обновления для использования в режиме GUI
+  stop() {
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+      console.log('Игровой цикл остановлен.');
+    }
+  }
+
   update(deltaTime) {
-    // Обновляем тип игры, если установлен
     if (this.gameTypeInstance && this.gameTypeInstance.update) {
       this.gameTypeInstance.update(deltaTime);
     }
-    // Обновляем сцену
     this.sceneManager.update(deltaTime);
     this.render();
   }
 
-  // Рендеринг сцены
   render() {
-    this.renderer.clear(); // Очищаем экран
-    this.sceneManager.render(this.renderer.context); // Рендерим текущую сцену
+    this.renderer.clear();
+    this.sceneManager.render(this.renderer.context);
   }
 }
