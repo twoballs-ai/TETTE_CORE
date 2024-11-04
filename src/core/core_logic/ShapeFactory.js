@@ -9,8 +9,8 @@ export function getShapeFactory(renderType) {
   switch (renderType) {
     case '2d':
       return shapesCanvas2D.getShapes(renderType);
-    case 'webgl2d':
-      return shapesWebGL2D.getShapes(renderType);
+    // case 'webgl2d':
+    //   return shapesWebGL2D.getShapes(renderType);
     // case 'webgl3d':
     //   return shapesWebGL3D.getShapes();
     // case 'webgpu2d':

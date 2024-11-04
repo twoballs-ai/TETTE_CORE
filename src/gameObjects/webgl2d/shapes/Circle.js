@@ -1,6 +1,6 @@
-import { GameObject } from '../../canvas2d/Canvas2dGameObject.js';
+import { Canvas2dGameObject } from '../../canvas2d/Canvas2dGameObject.js';
 
-export class Circle extends GameObject {
+export class Circle extends Canvas2dGameObject {
   constructor(x, y, radius, startAngle = 0, endAngle = 2 * Math.PI, color, borderColor = null, borderWidth = 0) {
     super(x, y, radius * 2, radius * 2, color);
     this.radius = radius;
@@ -19,7 +19,7 @@ export class Circle extends GameObject {
     }
 
     // Буферы для вершин и цветов
-    this.vertexBuffer = null;
+    this.vertexBuffer = null;Canvas2dGameObject
     this.colorBuffer = null;
   }
 

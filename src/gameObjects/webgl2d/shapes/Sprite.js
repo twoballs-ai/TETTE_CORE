@@ -1,6 +1,6 @@
-import { GameObject } from '../../canvas2d/Canvas2dGameObject.js';
+import { Canvas2dGameObject } from '../../canvas2d/Canvas2dGameObject.js';
 
-export class Sprite extends GameObject {
+export class Sprite extends Canvas2dGameObject {
     constructor(image, x, y, width, height, preserveAspectRatio = false) {
         super(x, y, width, height);
         this.image = image;

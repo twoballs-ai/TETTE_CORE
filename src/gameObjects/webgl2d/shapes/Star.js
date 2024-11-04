@@ -1,6 +1,6 @@
-import { GameObject } from '../../canvas2d/Canvas2dGameObject.js';
+import { Canvas2dGameObject } from '../../canvas2d/Canvas2dGameObject.js';
 
-export class Star extends GameObject {
+export class Star extends Canvas2dGameObject {
   constructor(x, y, radius, points, color = 'black', borderColor = null, borderWidth = 0) {
     super(x, y, radius * 2, radius * 2, color);
     this.radius = radius;

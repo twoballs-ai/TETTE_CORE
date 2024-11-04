@@ -1,6 +1,6 @@
-import { GameObject } from '../Canvas2dGameObject.js';
+import { Canvas2dGameObject } from '../Canvas2dGameObject.js';
 
-export class Ellipse extends GameObject {
+export class Ellipse extends Canvas2dGameObject {
   constructor(x, y, rX, rY, rot, start, end, color, borderColor = null, borderWidth = 0) {
     super(x, y, rX * 2, rY * 2, color); // Для эллипса используем радиусы по осям X и Y как размер
     this.rX = rX;

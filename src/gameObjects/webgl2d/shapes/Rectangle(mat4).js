@@ -1,8 +1,8 @@
-// Rectangle.js работает но надо поправить импорт
-import { GameObject } from '../gameObject.js';
+Canvas2dGameObject// Rectangle.js работает но надо поправить импорт
+import { Canvas2dGameObject } from '../gameObject.js';
 import { mat4 } from 'gl-matrix/esm/index.js'; 
 
-export class Rectangle extends GameObject {
+export class Rectangle extends Canvas2dGameObject {
   constructor(x, y, width, height, color, borderColor = null, borderWidth = 0, round = 0) {
     super(x, y, width, height, color);
 

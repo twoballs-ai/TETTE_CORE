@@ -1,6 +1,6 @@
-import { GameObject } from '../../canvas2d/Canvas2dGameObject.js';
+import { Canvas2dGameObject } from '../../canvas2d/Canvas2dGameObject.js';
 
-export class Polygon extends GameObject {
+export class Polygon extends Canvas2dGameObject {
   constructor(vertices, color) {
     // Определяем начальные координаты как координаты первой вершины
     super(vertices[0].x, vertices[0].y, 0, 0, color);

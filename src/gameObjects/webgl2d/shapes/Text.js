@@ -1,6 +1,6 @@
-import { GameObject } from '../../canvas2d/Canvas2dGameObject.js';
+import { Canvas2dGameObject } from '../../canvas2d/Canvas2dGameObject.js';
 
-export class Text extends GameObject {
+export class Text extends Canvas2dGameObject {
   constructor(text, x, y, fontsize = 16, color = 'black', fontFamily = 'Arial', borderColor = null, borderWidth = 0) {
     super(x, y, 0, 0, color);
     this.text = text;

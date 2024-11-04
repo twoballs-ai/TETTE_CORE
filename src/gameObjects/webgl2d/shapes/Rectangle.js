@@ -1,6 +1,6 @@
-import { GameObject } from '../../canvas2d/Canvas2dGameObject.js';
+import { Canvas2dGameObject } from '../../canvas2d/Canvas2dGameObject.js';
 
-export class Rectangle extends GameObject {
+export class Rectangle extends Canvas2dGameObject {
   constructor(x, y, width, height, color) {
     super(x, y, width, height, color);
 

@@ -1,19 +1,26 @@
 import { RigidBody2d } from '../../core/physics/RigidBody2d.js';
 
 export class Canvas2dGameObject {
-  constructor({ x, y, width, height, color, enablePhysics = false, isStatic = false, layer = 0 }) {
-    this.x = x;  // Позиция по X
-    this.y = y;  // Позиция по Y
-    this.width = width;  // Ширина объекта
-    this.height = height;  // Высота объекта
-    this.color = color;  // Цвет объекта
-    this.layer = layer;  // Слой для рендеринга (чем меньше значение, тем раньше рендерится)
+  constructor({ x, y, width = null, height = null, radius = null, color, enablePhysics = false, isStatic = false, layer = 0 }) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
 
-    // Добавляем поддержку физики
+    // Если задан radius, width и height рассчитываются автоматически
+    if (this.radius !== null) {
+      this.width = this.radius * 2;
+      this.height = this.radius * 2;
+    } else {
+      this.width = width;
+      this.height = height;
+    }
+
+    this.color = color;
+    this.layer = layer;
+    
+    // Поддержка физики
     if (enablePhysics) {
-      this.rigidBody = new RigidBody2d({
-        isStatic: isStatic
-      });
+      this.rigidBody = new RigidBody2d({ isStatic });
       this.rigidBody.x = this.x;
       this.rigidBody.y = this.y;
       this.rigidBody.width = this.width;
@@ -22,6 +29,7 @@ export class Canvas2dGameObject {
       this.rigidBody = null;
     }
   }
+
   serialize() {
     return {
       // Сериализуйте необходимые свойства
@@ -33,7 +41,7 @@ export class Canvas2dGameObject {
   }
 
   static deserialize(data) {
-    const obj = new GameObject();
+    const obj = new Canvas2dGameObject();
     // Восстанавливаем свойства из данных
     obj.x = data.x;
     obj.y = data.y;

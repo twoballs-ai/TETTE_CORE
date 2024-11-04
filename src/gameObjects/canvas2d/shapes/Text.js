@@ -1,6 +1,6 @@
-import { GameObject } from '../Canvas2dGameObject.js';
+import { Canvas2dGameObject } from '../Canvas2dGameObject.js';
 
-export class Text extends GameObject {
+export class Text extends Canvas2dGameObject {
   constructor(text, x, y, fontsize = 16, color = 'black', fontFamily = 'Arial', borderColor = null, borderWidth = 0) {
     // Передаем координаты и цвет в конструктор базового класса
     super(x, y, 0, 0, color);

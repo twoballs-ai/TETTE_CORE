@@ -1,6 +1,6 @@
-import { GameObject } from '../Canvas2dGameObject.js';
+import { Canvas2dGameObject } from '../Canvas2dGameObject.js';
 
-export class Rectangle extends GameObject {
+export class Rectangle extends Canvas2dGameObject {
   constructor(x, y, width, height = width, color, borderColor = null, borderWidth = 0, round = 0) {
     super(x, y, width, height, color); // Теперь ширина и высота могут быть разными
     this.borderColor = borderColor;

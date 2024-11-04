@@ -1,6 +1,6 @@
-import { GameObject } from '../Canvas2dGameObject.js';
+import { Canvas2dGameObject } from '../Canvas2dGameObject.js';
 
-export class Line extends GameObject {
+export class Line extends Canvas2dGameObject {
   constructor(x1, y1, x2, y2, color = 'black', widthline = 1, lineRounded = 'butt') {
     super(x1, y1, x2 - x1, y2 - y1, color); // x2 и y2 используем для вычисления длины линии
     this.x1 = x1;

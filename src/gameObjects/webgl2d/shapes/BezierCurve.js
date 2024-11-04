@@ -1,6 +1,6 @@
-import { GameObject } from '../../canvas2d/Canvas2dGameObject.js';
+import { Canvas2dGameObject } from '../../canvas2d/Canvas2dGameObject.js';
 
-export class BezierCurve extends GameObject {
+export class BezierCurve extends Canvas2dGameObject {
   constructor(startX, startY, controlX1, controlY1, controlX2, controlY2, endX, endY, color = 'black', widthline = 1) {
     super(startX, startY, 0, 0, color);
     this.startX = startX;
