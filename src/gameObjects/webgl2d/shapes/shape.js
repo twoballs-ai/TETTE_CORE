@@ -35,8 +35,7 @@ export function getShapes(renderType) {
     rectangle: function(params) {
       const color = ColorMixin(params.color, renderType);
       const borderColor = params.borderColor ? ColorMixin(params.borderColor, renderType) : null;
-      console.log(params.color)
-      console.log(color)
+      console.log(params)
       return new Rectangle(
         params.x,
         params.y,
@@ -52,7 +51,7 @@ export function getShapes(renderType) {
     circle: function(params) {
       const color = ColorMixin(params.color, renderType);
       const borderColor = params.borderColor ? ColorMixin(params.borderColor, renderType) : null;
-
+console.log(params)
       return new Circle(
         params.x,
         params.y,

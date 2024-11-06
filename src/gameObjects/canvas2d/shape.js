@@ -21,7 +21,9 @@ export function getShapes(renderType) {
 
   return {
     square: function (params) {
+      console.log("dddddddddd")
       const { color, borderColor } = applyColorMixin(params);
+      
       return new Rectangle({
         x: params.x,
         y: params.y,
@@ -38,6 +40,7 @@ export function getShapes(renderType) {
     },
 
     rectangle: function (params) {
+
       const { color, borderColor } = applyColorMixin(params);
       return new Rectangle({
         x: params.x,
@@ -54,9 +57,20 @@ export function getShapes(renderType) {
     },
 
     circle: function (params) {
-      console.log("dddd")
-      const { color, borderColor } = applyColorMixin(params);
       console.log(params)
+      const { color, borderColor } = applyColorMixin(params);
+      const tttt = new Circle({
+        x: params.x,
+        y: params.y,
+        radius: params.radius,
+        color,
+        borderColor,
+        borderWidth: params.borderWidth,
+        enablePhysics: params.enablePhysics || false,
+        isStatic: params.isStatic || false,
+        layer: params.layer || 0,
+      });
+      console.log(tttt)
       return new Circle({
         x: params.x,
         y: params.y,
