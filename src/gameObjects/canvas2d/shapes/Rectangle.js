@@ -1,18 +1,40 @@
 import { Canvas2dGameObject } from '../Canvas2dGameObject.js';
 
 export class Rectangle extends Canvas2dGameObject {
-  constructor(x, y, width, height = width, color, borderColor = null, borderWidth = 0, round = 0) {
-    super(x, y, width, height, color); // Теперь ширина и высота могут быть разными
+  constructor({
+    x,
+    y,
+    width,
+    height = width, // По умолчанию высота равна ширине, если это квадрат
+    color = 'black',
+    borderColor = null,
+    borderWidth = 0,
+    round = 0,
+    enablePhysics = false,
+    isStatic = false,
+    layer = 0,
+  }) {
+    super({
+      x,
+      y,
+      width,
+      height,
+      color,
+      enablePhysics,
+      isStatic,
+      layer,
+    });
+
     this.borderColor = borderColor;
     this.borderWidth = borderWidth;
     this.round = round;
   }
 
-  // Метод для рендеринга квадрата/прямоугольника
+  // Метод для рендеринга прямоугольника или квадрата
   render(context) {
     context.beginPath();
 
-    // Если нужно закруглить углы
+    // Если углы закруглены, вызываем метод для закруглённого прямоугольника
     if (this.round > 0) {
       this.roundedRect(context, this.x, this.y, this.width, this.height, this.round);
     } else {
@@ -23,7 +45,7 @@ export class Rectangle extends Canvas2dGameObject {
     context.fillStyle = this.color;
     context.fill();
 
-    // Если есть граница, рисуем её
+    // Если граница задана, рисуем её
     if (this.borderColor) {
       context.strokeStyle = this.borderColor;
       context.lineWidth = this.borderWidth;
@@ -33,7 +55,7 @@ export class Rectangle extends Canvas2dGameObject {
     context.closePath();
   }
 
-  // Метод для рисования закругленного прямоугольника
+  // Метод для рисования закруглённого прямоугольника
   roundedRect(context, x, y, width, height, radius) {
     context.moveTo(x + radius, y);
     context.arcTo(x + width, y, x + width, y + height, radius);

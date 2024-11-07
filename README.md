@@ -1,87 +1,87 @@
 # TETTE Core
 
-TETTE Core — это ядро для создания игр и интерактивных приложений, предоставляющее мощные инструменты и гибкость для разработки. Проект поддерживает работу с WebGL и WebGPU, что делает его подходящим для реализации различных игровых и интерактивных проектов. TETTE Core может использоваться как автономно, так и в паре с графическим интерфейсом (GUI), что планируется добавить в будущем.
+TETTE Core is a core library for creating games and interactive applications, providing powerful tools and flexibility for development. The project supports working with WebGL and WebGPU, making it suitable for implementing various gaming and interactive projects. TETTE Core can be used both independently and in conjunction with a graphical user interface (GUI), which is planned to be added in the future.
 
-> **Внимание**: Проект находится на раннем этапе разработки и пока может содержать существенные недоработки. Рекомендуем подождать более стабильного релиза, чтобы избежать возможного разочарования.
+> **Note**: The project is at an early stage of development and may currently contain significant shortcomings. We recommend waiting for a more stable release to avoid possible disappointment.
 
-## Содержание
-- [Установка](#установка)
-- [Использование](#использование)
-- [Скрипты](#скрипты)
-- [Структура проекта](#структура-проекта)
-- [Разработка и сборка](#разработка-и-сборка)
-- [Лицензия](#лицензия)
+## Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Scripts](#scripts)
+- [Project Structure](#project-structure)
+- [Development and Build](#development-and-build)
+- [License](#license)
 
-## Установка
+## Installation
 
-Для установки пакета через npm выполните команду:
+To install the package via npm, run the command:
 
 ```bash
 npm install tette-core
 ```
 
-## Использование
+## Usage
 
-Для использования TETTE Core в проекте импортируйте его следующим образом:
+To use TETTE Core in your project, import it as follows:
 
 ```javascript
 import TetteCore from 'tette-core';
 
-// Пример использования
+// Usage example
 const game = new TetteCore.Game();
 game.start();
 ```
 
-## Скрипты
+## Scripts
 
-### Сборка проекта
-Для сборки проекта используется Webpack. Выполните следующую команду для создания сборки:
+### Building the Project
+To build the project, use Webpack. Run the following command to create a build:
 
 ```bash
 npm run build
 ```
 
-### Дополнительные скрипты
-- **Сборка**: `npm run build` — компиляция проекта и создание минифицированного бандла в папке `dist`.
-- **Тестирование**: Тестирование можно добавить по мере необходимости.
+### Additional Scripts
+- **Build**: `npm run build` — compiles the project and creates a minified bundle in the `dist` folder.
+- **Testing**: Testing can be added as needed.
 
-## Структура проекта
+## Project Structure
 
 ```
-/dist                     # Скомпилированные файлы
-/examples                 # Примеры использования
-/src                      # Исходный код
-  /core                   # Основные модули ядра
-  /gameObjects            # Игровые объекты и компоненты
-  /gameTypePresets        # Предустановки типов игр
-  index.js                # Точка входа
-/.babelrc                 # Конфигурация Babel
-/webpack.config.js        # Конфигурация Webpack
+/dist                     # Compiled files
+/examples                 # Usage examples
+/src                      # Source code
+  /core                   # Core modules
+  /gameObjects            # Game objects and components
+  /gameTypePresets        # Game type presets
+  index.js                # Entry point
+/.babelrc                 # Babel configuration
+/webpack.config.js        # Webpack configuration
 ```
 
-## Разработка и сборка
+## Development and Build
 
-1. Клонируйте репозиторий:
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/yourusername/tette-core.git
 cd tette-core
 ```
 
-2. Установите зависимости:
+2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-3. Запустите сборку:
+3. Run the build:
 
 ```bash
 npm run build
 ```
 
-4. При необходимости запустите сервер разработки (например, с помощью сервера `webpack-dev-server` или `live-server` для примеров).
+4. If necessary, start the development server (e.g., using `webpack-dev-server` or `live-server` for examples).
 
-## Лицензия
+## License
 
-Этот проект распространяется под лицензией MIT. Полный текст лицензии можно найти в файле [LICENSE](LICENSE).
+This project is distributed under the MIT License. You can find the full text of the license in the [LICENSE](LICENSE) file.

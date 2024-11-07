@@ -1,9 +1,31 @@
 import { Canvas2dGameObject } from '../Canvas2dGameObject.js';
 
 export class Text extends Canvas2dGameObject {
-  constructor(text, x, y, fontsize = 16, color = 'black', fontFamily = 'Arial', borderColor = null, borderWidth = 0) {
-    // Передаем координаты и цвет в конструктор базового класса
-    super(x, y, 0, 0, color);
+  constructor({
+    text,
+    x,
+    y,
+    fontsize = 16,
+    color = 'black',
+    fontFamily = 'Arial',
+    borderColor = null,
+    borderWidth = 0,
+    enablePhysics = false,
+    isStatic = false,
+    layer = 0,
+  }) {
+    // Передаем координаты и цвет в базовый конструктор
+    super({
+      x,
+      y,
+      width: 0,  // Текст не требует конкретной ширины и высоты для базового класса
+      height: 0,
+      color,
+      enablePhysics,
+      isStatic,
+      layer,
+    });
+
     this.text = text;
     this.fontsize = fontsize;
     this.fontFamily = fontFamily;

@@ -1,12 +1,21 @@
 import { RigidBody2d } from '../../core/physics/RigidBody2d.js';
 
 export class Canvas2dGameObject {
-  constructor({ x, y, width = null, height = null, radius = null, color, enablePhysics = false, isStatic = false, layer = 0 }) {
+  constructor({
+    x,
+    y,
+    width = null,
+    height = null,
+    radius = null,
+    color,
+    enablePhysics = false,
+    isStatic = false,
+    layer = 0,
+  }) {
     this.x = x;
     this.y = y;
     this.radius = radius;
 
-    // Если задан radius, width и height рассчитываются автоматически
     if (this.radius !== null) {
       this.width = this.radius * 2;
       this.height = this.radius * 2;
@@ -17,7 +26,7 @@ export class Canvas2dGameObject {
 
     this.color = color;
     this.layer = layer;
-    
+
     // Поддержка физики
     if (enablePhysics) {
       this.rigidBody = new RigidBody2d({ isStatic });

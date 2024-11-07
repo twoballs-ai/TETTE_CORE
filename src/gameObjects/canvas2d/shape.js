@@ -59,18 +59,6 @@ export function getShapes(renderType) {
     circle: function (params) {
       console.log(params)
       const { color, borderColor } = applyColorMixin(params);
-      const tttt = new Circle({
-        x: params.x,
-        y: params.y,
-        radius: params.radius,
-        color,
-        borderColor,
-        borderWidth: params.borderWidth,
-        enablePhysics: params.enablePhysics || false,
-        isStatic: params.isStatic || false,
-        layer: params.layer || 0,
-      });
-      console.log(tttt)
       return new Circle({
         x: params.x,
         y: params.y,
@@ -106,8 +94,8 @@ export function getShapes(renderType) {
       return new Ellipse({
         x: params.x,
         y: params.y,
-        radiusX: params.rX,
-        radiusY: params.rY,
+        rX: params.rX,  // Параметры rX и rY теперь совпадают с ожидаемыми
+        rY: params.rY,
         rotation: params.rot || 0,
         startAngle: params.start || 0,
         endAngle: params.end || 2 * Math.PI,

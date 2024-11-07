@@ -1,8 +1,20 @@
 import { Canvas2dGameObject } from '../Canvas2dGameObject.js';
 
 export class Circle extends Canvas2dGameObject {
-  constructor(x, y, radius, startAngle = 0, endAngle = 2 * Math.PI, color = 'black', borderColor = null, borderWidth = 0) {
-    super({ x, y, radius, color });
+  constructor({
+    x,
+    y,
+    radius,
+    startAngle = 0,
+    endAngle = 2 * Math.PI,
+    color = 'black',
+    borderColor = null,
+    borderWidth = 0,
+    enablePhysics = false,
+    isStatic = false,
+    layer = 0,
+  }) {
+    super({ x, y, radius, color, enablePhysics, isStatic, layer });
     this.startAngle = startAngle;
     this.endAngle = endAngle;
     this.borderColor = borderColor;
