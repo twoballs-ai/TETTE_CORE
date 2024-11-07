@@ -63,4 +63,37 @@ export class Ellipse extends Canvas2dGameObject {
 
     context.closePath();
   }
+
+  // Method to check if a point is within the ellipse
+  containsPoint(x, y) {
+    // Adjust the point based on rotation
+    const cos = Math.cos(-this.rotation);
+    const sin = Math.sin(-this.rotation);
+    const dx = x - this.x;
+    const dy = y - this.y;
+    const rotatedX = dx * cos - dy * sin;
+    const rotatedY = dx * sin + dy * cos;
+
+    // Check if point is within the ellipse bounds
+    return (
+      (rotatedX ** 2) / (this.rX ** 2) + (rotatedY ** 2) / (this.rY ** 2) <= 1
+    );
+  }
+
+  // Method to get the bounding box of the ellipse
+  getBoundingBox() {
+    const cos = Math.cos(this.rotation);
+    const sin = Math.sin(this.rotation);
+
+    // Calculating the transformed radii along rotated axes
+    const width = Math.abs(this.rX * cos) + Math.abs(this.rY * sin);
+    const height = Math.abs(this.rX * sin) + Math.abs(this.rY * cos);
+
+    return {
+      x: this.x - width,
+      y: this.y - height,
+      width: 2 * width,
+      height: 2 * height,
+    };
+  }
 }

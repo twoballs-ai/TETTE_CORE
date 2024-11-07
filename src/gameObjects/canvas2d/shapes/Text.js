@@ -53,4 +53,30 @@ export class Text extends Canvas2dGameObject {
 
     context.closePath();
   }
+
+  // Метод для проверки, находится ли точка внутри текста
+  containsPoint(px, py) {
+    const boundingBox = this.getBoundingBox();
+    return (
+      px >= boundingBox.x &&
+      px <= boundingBox.x + boundingBox.width &&
+      py >= boundingBox.y &&
+      py <= boundingBox.y + boundingBox.height
+    );
+  }
+
+  // Метод для получения ограничивающего прямоугольника текста
+  getBoundingBox() {
+    const context = document.createElement('canvas').getContext('2d');
+    context.font = `${this.fontsize}px ${this.fontFamily}`;
+    const width = context.measureText(this.text).width;
+    const height = this.fontsize; // Высоту текста можно оценить по размеру шрифта
+
+    return {
+      x: this.x,
+      y: this.y - height, // Верхняя граница текста начинается выше по y-координате
+      width: width,
+      height: height,
+    };
+  }
 }

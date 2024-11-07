@@ -31,10 +31,31 @@ export class Star extends Canvas2dGameObject {
     this.borderWidth = borderWidth;
   }
 
+  // Метод для проверки, находится ли точка внутри ограничивающего прямоугольника звезды
+  containsPoint(px, py) {
+    const boundingBox = this.getBoundingBox();
+    return (
+      px >= boundingBox.x &&
+      px <= boundingBox.x + boundingBox.width &&
+      py >= boundingBox.y &&
+      py <= boundingBox.y + boundingBox.height
+    );
+  }
+
+  // Метод для получения ограничивающего прямоугольника звезды
+  getBoundingBox() {
+    return {
+      x: this.x - this.radius,
+      y: this.y - this.radius,
+      width: this.radius * 2,
+      height: this.radius * 2,
+    };
+  }
+
   render(context) {
     const step = Math.PI / this.points; // Шаг для расчета углов
     context.beginPath();
-    
+
     // Начальная точка звезды
     context.moveTo(
       this.x + this.radius * Math.cos(0),

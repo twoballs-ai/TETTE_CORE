@@ -54,6 +54,24 @@ export class Rectangle extends Canvas2dGameObject {
 
     context.closePath();
   }
+  containsPoint(x, y) {
+    return (
+      x >= this.x &&
+      x <= this.x + this.width &&
+      y >= this.y &&
+      y <= this.y + this.height
+    );
+  }
+
+  // Метод для получения bounding box
+  getBoundingBox() {
+    return {
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height,
+    };
+  }
 
   // Метод для рисования закруглённого прямоугольника
   roundedRect(context, x, y, width, height, radius) {
