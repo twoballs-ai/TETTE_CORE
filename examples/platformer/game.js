@@ -1,8 +1,8 @@
-import { Core } from '../../TETTE_CORE/core/core_logic/Core.js';
-import { SceneManager } from '../../TETTE_CORE/core/core_logic/SceneManager.js';
-import { PlatformerPlayerCharacter } from '../../TETTE_CORE/gameObjects/characters/PlatformerPlayerCharacter.js'; 
-import { getShape2d } from '../../TETTE_CORE/gameObjects/shapes/shape2d.js';
-import { Enemy } from '../../TETTE_CORE/gameObjects/characters/Enemy.js';
+import { Core } from '../../src/core/core_logic/Core.js';
+import { SceneManager } from '../../src/core/core_logic/SceneManager.js';
+import { PlatformerPlayerCharacter } from '../../src/gameObjects/characters/PlatformerPlayerCharacter.js'; 
+import { getShape2d } from '../../src/gameObjects/shape2d.js';
+import { Enemy } from '../../src/gameObjects/characters/Enemy.js';
 // Получаем объект shape2d, настроенный с renderType
 const renderType = '2d'; 
 const shape2d = getShape2d(renderType);

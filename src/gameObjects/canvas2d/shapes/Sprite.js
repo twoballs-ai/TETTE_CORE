@@ -1,4 +1,5 @@
 import { Canvas2dGameObject } from '../Canvas2dGameObject.js';
+
 export class Sprite extends Canvas2dGameObject {
   constructor(params) {
     super({
@@ -6,10 +7,10 @@ export class Sprite extends Canvas2dGameObject {
       y: params.y,
       width: params.width,
       height: params.height,
-      color: null, // Цвет можно задать null, так как это спрайт
+      color: null,
       enablePhysics: params.enablePhysics || false,
       isStatic: params.isStatic || false,
-      layer: params.layer || 0  // Добавляем слой рендеринга
+      layer: params.layer || 0,
     });
 
     this.image = params.image;
@@ -21,6 +22,22 @@ export class Sprite extends Canvas2dGameObject {
       this.x = this.rigidBody.x;
       this.y = this.rigidBody.y;
     }
+  }
+
+  containsPoint(x, y) {
+    // Проверка, находится ли точка внутри спрайта
+    return x >= this.x && x <= this.x + this.width &&
+           y >= this.y && y <= this.y + this.height;
+  }
+
+  getBoundingBox() {
+    // Возвращаем ограничивающий прямоугольник спрайта
+    return {
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height,
+    };
   }
 
   render(context) {

@@ -14,17 +14,17 @@ export class SpriteGrid extends Canvas2dGameObject {
     preserveAspectRatio = false,
     enablePhysics = false,
     isStatic = false,
-    layer = 0  // Новый параметр для слоя
+    layer = 0,
   }) {
     super({
       x: x,
       y: y,
-      width: width * repeatX + spacingX * (repeatX - 1),  // Общая ширина сетки
-      height: height * repeatY + spacingY * (repeatY - 1), // Общая высота сетки
+      width: width * repeatX + spacingX * (repeatX - 1),
+      height: height * repeatY + spacingY * (repeatY - 1),
       color: null,
       enablePhysics: enablePhysics,
       isStatic: isStatic,
-      layer: layer  // Устанавливаем слой в родительском классе
+      layer: layer,
     });
 
     this.image = image;
@@ -36,11 +36,26 @@ export class SpriteGrid extends Canvas2dGameObject {
   }
 
   update(deltaTime) {
-    // Если физика включена, обновляем позиции из rigidBody
     if (this.rigidBody) {
       this.x = this.rigidBody.x;
       this.y = this.rigidBody.y;
     }
+  }
+
+  containsPoint(x, y) {
+    // Проверка, находится ли точка внутри области спрайт-сетки
+    return x >= this.x && x <= this.x + this.width &&
+           y >= this.y && y <= this.y + this.height;
+  }
+
+  getBoundingBox() {
+    // Возвращаем ограничивающий прямоугольник спрайт-сетки
+    return {
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height,
+    };
   }
 
   render(context) {
