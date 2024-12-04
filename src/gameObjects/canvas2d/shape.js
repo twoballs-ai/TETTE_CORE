@@ -1,11 +1,38 @@
 
 import { Sprite } from './shapes/Sprite.js'; // Обновлённый класс Sprite
-import { SpriteGrid } from '../utils/SpriteGrid.js';
+import { SpriteGrid } from './shapes/SpriteGrid.js'; // Обновлённый класс Sprite
+import { ColorMixin } from '../../core/core_logic/ColorMixin.js';
+import { Frame } from '../utils/Frame.js'
 
 export function getShapes(renderType) {
+  
+  function applyColorMixin(params) {
+    return {
+      color: ColorMixin(params.color || 'black', renderType),
+      borderColor: params.borderColor ? ColorMixin(params.borderColor, renderType) : null,
+    };
+  }
+
 
   return {
 
+    
+    frame: function (params) {
+
+      const { color, borderColor } = applyColorMixin(params);
+      return new Frame({
+        x: params.x,
+        y: params.y,
+        width: params.width,
+        height: params.height,
+        color,
+        borderColor,
+        borderWidth: params.borderWidth,
+        enablePhysics: params.enablePhysics || false,
+        isStatic: params.isStatic || false,
+        layer: params.layer || 0,
+      });
+    },
     sprite: function (params) {
       return new Sprite({
         image: params.image,
