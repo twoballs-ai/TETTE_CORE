@@ -17,7 +17,18 @@ export class GraphicalContext {
         this.context = this.initializeContext(type);
         this.renderer = this.createRenderer(type, backgroundColor); // Передаем цвет фона
     }
-
+    resize(width, height) {
+        if (this.canvas) {
+            this.canvas.width = width;
+            this.canvas.height = height;
+    
+            // Если контекст нужно заново получить
+            this.context = this.initializeContext(this.type);
+    
+            console.log(`Canvas resized to: ${width}x${height}`);
+        }
+    }
+    
     initializeContext(type) {
         if (type === '2d') {
             return this.canvas.getContext('2d');
