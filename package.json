@@ -1,13 +1,13 @@
 {
   "name": "tette-core",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Core functionality for the TETTE game framework.",
   "main": "./dist/tette.bundle.js",
-  "module": "./src/index.js",      
+  "module": "./src/index.js",
   "scripts": {
-  "build": "webpack --config webpack.config.js",
-  "build:dev": "webpack --mode development --config webpack.config.js",
-  "build:prod": "webpack --mode production --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "build:dev": "webpack --mode development --config webpack.config.js",
+    "build:prod": "webpack --mode production --config webpack.config.js"
   },
   "keywords": [
     "game",
@@ -19,7 +19,7 @@
   "author": "Boris Bogatyrev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/twoballs-ai/TETTE_CORE.git"
+    "url": "git+https://github.com/twoballs-ai/TETTE_CORE.git"
   },
   "license": "MIT",
   "files": [
