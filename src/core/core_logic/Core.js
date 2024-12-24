@@ -138,23 +138,28 @@ export class Core {
     if (!this.isGuiMode) {
       const deltaTime = timestamp - this.lastTime;
       this.lastTime = timestamp;
-
+  
       if (this.gameTypeInstance && this.gameTypeInstance.update) {
         this.gameTypeInstance.update(deltaTime);
       }
-
+  
+      // Важно: обновляем сначала логику
+      if (this.logicSystem) {
+        this.logicSystem.update(deltaTime);
+      }
+  
+      // Затем обновляем сцену
       this.sceneManager.update(deltaTime);
-
+  
+      // Рендерим
       this.renderer.clear();
       this.sceneManager.render(this.renderer.context);
-
-      // Render selection if there is a selected object
+  
       if (this.selectedObject) {
-        this.highlightObject(this.selectedObject, 'purple'); // Changed color to purple
+        this.highlightObject(this.selectedObject, 'purple');
       }
-
-      // Continue the loop
-      this.animationFrameId = requestAnimationFrame(this.loop); // Updated to use animation frame
+  
+      this.animationFrameId = requestAnimationFrame(this.loop);
     }
   }
 
