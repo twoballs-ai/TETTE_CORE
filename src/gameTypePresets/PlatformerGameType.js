@@ -1,8 +1,8 @@
 // PlatformerGameType.js
 import { GameType } from './GameType.js';
-import { PlatformerPlayerCharacter } from '../gameObjects/characters/PlatformerPlayerCharacter.js';
+import { PlatformerPlayerCharacter } from '../gameObjects/canvas2d/characters/PlatformerPlayerCharacter.js';
 import { KeyboardControl } from '../core/controls/keyboardControl.js';
-import { Enemy } from '../gameObjects/characters/Enemy.js';
+import { Enemy } from '../gameObjects/canvas2d/characters/Enemy.js';
 export class PlatformerGameType extends GameType {
   constructor(core) {
     super(core);

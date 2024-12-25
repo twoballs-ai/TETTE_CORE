@@ -4,12 +4,12 @@
 export { Core } from './core/core_logic/Core.js';
 export { SceneManager } from './core/core_logic/SceneManager.js';
 export { GraphicalContext } from './core/core_logic/GraphicalContext.js';
-
+export { EditorMode } from './core/core_logic/RenderMode/mode/EditorMode.js';
+export { FullPreviewMode } from './core/core_logic/RenderMode/mode/FullPreviewMode.js';
+export { GameMode } from './core/core_logic/RenderMode/mode/GameMode.js';
+export { PreviewMode } from './core/core_logic/RenderMode/mode/PreviewMode.js';
 // Экспортируем фигуры
-// export { Rectangle } from './gameObjects/shapes/2d/Rectangle.js';
-// export { Circle } from './gameObjects/shapes/2d/Circle.js';
-// export { Line } from './core/figures/Line.js';
-// export { Ellipse } from './core/figures/Ellipse.js';
+
 export { getShape2d } from './gameObjects/shape2d.js';
 
 // Экспортируем контролы

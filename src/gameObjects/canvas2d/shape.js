@@ -1,8 +1,8 @@
-
-import { Sprite } from './shapes/Sprite.js'; // Обновлённый класс Sprite
-import { SpriteGrid } from './shapes/SpriteGrid.js'; // Обновлённый класс Sprite
+import { Sprite } from './shapes/Sprite.js';
+import { SpriteGrid } from './shapes/SpriteGrid.js';
+import { Character } from './characters/Character.js';
+import { Enemy } from './characters/Enemy.js';
 import { ColorMixin } from '../../core/core_logic/ColorMixin.js';
-
 
 export function getShapes(renderType) {
   
@@ -12,7 +12,6 @@ export function getShapes(renderType) {
       borderColor: params.borderColor ? ColorMixin(params.borderColor, renderType) : null,
     };
   }
-
 
   return {
 
@@ -45,6 +44,40 @@ export function getShapes(renderType) {
         enablePhysics: params.enablePhysics || false,
         isStatic: params.isStatic || false,
         layer: params.layer || 0,
+      });
+    },
+
+    character: function (params) {
+      return new Character({
+        x: params.x,
+        y: params.y,
+        width: params.width || 50,
+        height: params.height || 100,
+        color: ColorMixin(params.color || 'blue', renderType),
+        sprite: params.sprite || null,
+        animations: params.animations || {},
+        health: params.health || 100,
+        speed: params.speed || 30,
+        enablePhysics: params.enablePhysics || false,
+        layer: params.layer || 1,
+      });
+    },
+
+    enemy: function (params) {
+      return new Enemy({
+        x: params.x,
+        y: params.y,
+        width: params.width || 50,
+        height: params.height || 100,
+        color: ColorMixin(params.color || 'red', renderType),
+        sprite: params.sprite || null,
+        animations: params.animations || {},
+        health: params.health || 50,
+        speed: params.speed || 20,
+        enablePhysics: params.enablePhysics || false,
+        layer: params.layer || 1,
+        leftBoundary: params.leftBoundary || 0,
+        rightBoundary: params.rightBoundary || 800, // Примерный размер
       });
     },
 

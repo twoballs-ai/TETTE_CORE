@@ -1,5 +1,5 @@
 // Character.js
-import { RigidBody2d } from '../../core/physics/RigidBody2d.js';
+import { RigidBody2d } from '../../../core/physics/RigidBody2d.js';
 
 export class Character {
   constructor({

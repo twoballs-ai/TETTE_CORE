@@ -92,11 +92,6 @@ export class Core {
     this.render(); // Перерисовываем сцену с новым выделением
   }
 
-  setSelectedObject(object) {
-    this.selectedObject = object;
-    this.render(); // Re-render the scene with the new selection
-  }
-
   setGameType(gameType) {
     if (gameType) {
       console.log(`Setting game type: ${gameType}`);
