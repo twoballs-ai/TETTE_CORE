@@ -63,14 +63,13 @@ export class SceneManager {
     }
   }
 
-loadSceneFromObjects(sceneName, sceneObjects) {
-  this.createScene(sceneName);
-  console.log("Загружаемые объекты:", sceneObjects);
-  sceneObjects.forEach((obj) => {
-    this.addGameObjectToScene(sceneName, obj);
-  });
-  console.log(`Сцена "${sceneName}" загружена из объектов.`);
-}
+  loadSceneFromObjects(sceneName, sceneObjects) {
+    console.log(sceneName)
+    this.createScene(sceneName);
+    console.log(sceneObjects)
+    sceneObjects.forEach(obj => this.addGameObjectToScene(sceneName, obj));
+    console.log(`Сцена "${sceneName}" загружена из объектов.`);
+  }
 
   /**
    * Добавляем объект(ы) в указанную сцену
@@ -79,17 +78,16 @@ loadSceneFromObjects(sceneName, sceneObjects) {
     const scene = this.scenes[sceneName];
     if (scene) {
       gameObjects.forEach((obj) => {
-        // Преобразуем объект через фабрику
-        const gameObject = getShapes('2d')[obj.type](obj); // Используйте renderType вашего проекта
-        if (!scene.gameObjects.includes(gameObject)) {
-          scene.gameObjects.push(gameObject);
-          console.log(`Объект добавлен в сцену "${sceneName}":`, gameObject);
+        const existingObject = scene.gameObjects.find(o => o.id === obj.id);
+        if (!existingObject) {
+          scene.gameObjects.push(obj);
+          console.log(`Объект добавлен в сцену "${sceneName}":`, obj);
         } else {
-          console.warn(`Объект уже добавлен в сцену "${sceneName}":`, gameObject);
+          console.warn(`Объект с id "${obj.id}" уже существует в сцене "${sceneName}".`);
         }
       });
     } else {
-      console.error(`Сцена "${sceneName}" не существует.`);
+      console.error(`Невозможно добавить объект в несуществующую сцену: "${sceneName}".`);
     }
   }
 
@@ -131,7 +129,20 @@ loadSceneFromObjects(sceneName, sceneObjects) {
       console.error("Error loading level from file:", error);
     }
   }
-
+  updateGameObject(sceneName, updatedObject) {
+    const scene = this.scenes[sceneName];
+    if (scene) {
+      const index = scene.gameObjects.findIndex(obj => obj.id === updatedObject.id);
+      if (index !== -1) {
+        scene.gameObjects[index] = { ...scene.gameObjects[index], ...updatedObject };
+        console.log(`Объект обновлён в сцене "${sceneName}":`, updatedObject);
+      } else {
+        console.warn(`Объект с id "${updatedObject.id}" не найден в сцене "${sceneName}".`);
+      }
+    } else {
+      console.error(`Сцена "${sceneName}" не существует.`);
+    }
+  }
   update(deltaTime) {
     if (this.currentScene) {
       this.currentScene.gameObjects.forEach((object) => {
@@ -141,22 +152,27 @@ loadSceneFromObjects(sceneName, sceneObjects) {
       });
     }
   }
+render(context) {
+  if (this.currentScene) {
+    // Сортируем объекты по слою, чтобы корректно отображать их порядок
+    const sortedGameObjects = this.currentScene.gameObjects.sort((a, b) => a.layer - b.layer);
 
-  render(context) {
-    if (this.currentScene) {
-        console.log(`Рендеринг сцены "${this.currentScene.name}" с объектами:`, this.currentScene.gameObjects);
+    console.log(`Рендеринг сцены "${this.currentScene.name}" с объектами:`, sortedGameObjects);
 
-        this.currentScene.gameObjects.forEach((object, index) => {
-            console.log(`Попытка рендеринга объекта ${index}:`, object);
-            if (typeof object.render === "function") {
-                object.render(context);
-                console.log(`Объект ${index} успешно отрисован.`);
-            } else {
-                console.warn(`Объект ${index} не имеет метода render:`, object);
-            }
-        });
-    }
+    // Проходим по всем объектам в сцене и вызываем их метод render
+    sortedGameObjects.forEach((object) => {
+      if (typeof object.render === "function") {
+        console.log(`Рендеринг объекта с ID: ${object.id}`);
+        object.render(context);
+      } else {
+        console.warn(`Объект с ID ${object.id} не имеет метода render.`);
+      }
+    });
+  } else {
+    console.warn('Нет активной сцены для рендеринга.');
+  }
 }
+
 
   getCurrentScene() {
     return this.currentScene;

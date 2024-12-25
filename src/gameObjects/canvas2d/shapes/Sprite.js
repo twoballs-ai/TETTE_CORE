@@ -41,7 +41,7 @@ export class Sprite extends Canvas2dGameObject {
   }
 
   render(context) {
-  if (this.image.complete) {
+  if (this.image && this.image.complete) {
     let renderWidth = this.width;
     let renderHeight = this.height;
 
@@ -55,8 +55,9 @@ export class Sprite extends Canvas2dGameObject {
     }
 
     context.drawImage(this.image, this.x, this.y, renderWidth, renderHeight);
+    console.log(`Изображение отрисовано: ${this.image.src}`);
   } else {
-    console.warn(`Изображение ещё не загружено для объекта: ${this.id}`);
+    console.warn(`Изображение не загружено или отсутствует для объекта: ${this.id}`);
   }
 }
 }
