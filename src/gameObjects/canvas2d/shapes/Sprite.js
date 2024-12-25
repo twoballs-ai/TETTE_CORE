@@ -41,20 +41,22 @@ export class Sprite extends Canvas2dGameObject {
   }
 
   render(context) {
-    if (this.image.complete) {
-      let renderWidth = this.width;
-      let renderHeight = this.height;
+  if (this.image.complete) {
+    let renderWidth = this.width;
+    let renderHeight = this.height;
 
-      if (this.preserveAspectRatio) {
-        const aspectRatio = this.image.width / this.image.height;
-        if (this.width / this.height > aspectRatio) {
-          renderWidth = this.height * aspectRatio;
-        } else {
-          renderHeight = this.width / aspectRatio;
-        }
+    if (this.preserveAspectRatio) {
+      const aspectRatio = this.image.width / this.image.height;
+      if (this.width / this.height > aspectRatio) {
+        renderWidth = this.height * aspectRatio;
+      } else {
+        renderHeight = this.width / aspectRatio;
       }
-
-      context.drawImage(this.image, this.x, this.y, renderWidth, renderHeight);
     }
+
+    context.drawImage(this.image, this.x, this.y, renderWidth, renderHeight);
+  } else {
+    console.warn(`Изображение ещё не загружено для объекта: ${this.id}`);
   }
+}
 }

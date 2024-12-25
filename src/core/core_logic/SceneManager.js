@@ -1,20 +1,39 @@
-// SceneManager.js
+/**
+ * Менеджер сцен: отвечает за хранение, переключение и рендеринг сцен,
+ * а также теперь — за загрузку сцен из файлов.
+ */
 export class SceneManager {
-  constructor() {
+  constructor(logicSystem = null) {
     this.scenes = {};
     this.currentScene = null;
+    // Логика может потребоваться для загрузки logicFile,
+    // поэтому передаём её в SceneManager, если нужно
+    this.logicSystem = logicSystem;
   }
 
   createScene(...names) {
+    console.log(...names)
+    const createdScenes = [];
+    const existingScenes = [];
+  
     names.forEach((name) => {
       if (!this.scenes[name]) {
         this.scenes[name] = { name, gameObjects: [] };
-        console.log(`Сцена "${name}" создана.`);
+        createdScenes.push(name);
       } else {
-        console.warn(`Сцена "${name}" уже существует.`);
+        existingScenes.push(name);
       }
     });
+  
+    if (createdScenes.length > 0) {
+      console.log(`Созданы сцены: ${createdScenes.join(', ')}.`);
+    }
+  
+    if (existingScenes.length > 0) {
+      console.warn(`Сцены уже существуют: ${existingScenes.join(', ')}.`);
+    }
   }
+  
 
   changeScene(name) {
     if (this.scenes[name]) {
@@ -25,20 +44,93 @@ export class SceneManager {
     }
   }
 
+  /**
+   * Локальная логика загрузки объектов сцены из JSON-файла
+   */
+  async loadSceneObjectsFromFile(filePath) {
+    try {
+      const response = await fetch(filePath);
+      const sceneData = await response.json();
+      this.createScene(sceneData.name);
+      sceneData.gameObjects.forEach(obj => {
+        this.addGameObjectToScene(sceneData.name, obj);
+      });
+      console.log(`Сцена "${sceneData.name}" загружена из файла "${filePath}".`);
+      return sceneData;
+    } catch (error) {
+      console.error(`Ошибка загрузки объектов сцены из файла "${filePath}":`, error);
+      return null;
+    }
+  }
+
+loadSceneFromObjects(sceneName, sceneObjects) {
+  this.createScene(sceneName);
+  console.log("Загружаемые объекты:", sceneObjects);
+  sceneObjects.forEach((obj) => {
+    this.addGameObjectToScene(sceneName, obj);
+  });
+  console.log(`Сцена "${sceneName}" загружена из объектов.`);
+}
+
+  /**
+   * Добавляем объект(ы) в указанную сцену
+   */
   addGameObjectToScene(sceneName, ...gameObjects) {
     const scene = this.scenes[sceneName];
     if (scene) {
       gameObjects.forEach((obj) => {
-        if (!scene.gameObjects.includes(obj)) {
-          scene.gameObjects.push(obj);
+        // Преобразуем объект через фабрику
+        const gameObject = getShapes('2d')[obj.type](obj); // Используйте renderType вашего проекта
+        if (!scene.gameObjects.includes(gameObject)) {
+          scene.gameObjects.push(gameObject);
+          console.log(`Объект добавлен в сцену "${sceneName}":`, gameObject);
         } else {
-          console.warn(`Объект уже добавлен в сцену "${sceneName}".`);
+          console.warn(`Объект уже добавлен в сцену "${sceneName}":`, gameObject);
         }
       });
     } else {
-      console.error(`Невозможно добавить объект в несуществующую сцену: "${sceneName}".`);
+      console.error(`Сцена "${sceneName}" не существует.`);
+    }
   }
- }
+
+  /**
+   * Изначально этот метод был в Core. Перенесём его сюда.
+   * Загружает сцену из файлов (объекты + логика) и переключается на неё.
+   */
+  async initializeScene(sceneName, objectsFilePath, logicFilePath) {
+    try {
+      // Загружаем объекты сцены
+      const sceneData = await this.loadSceneObjectsFromFile(objectsFilePath);
+      // Загружаем логику (если есть logicSystem)
+      if (this.logicSystem && logicFilePath) {
+        await this.logicSystem.loadLogicFromFile(logicFilePath);
+      }
+      // Переключаемся на сцену
+      this.changeScene(sceneName);
+      console.log(`Scene "${sceneName}" successfully initialized.`);
+    } catch (error) {
+      console.error("Error initializing scene:", error);
+    }
+  }
+
+  /**
+   * Ещё один метод из Core. Теперь сцены будут грузиться через SceneManager.
+   */
+  async loadLevelFromFile(objectsFilePath, logicFilePath) {
+    try {
+      const sceneData = await this.loadSceneObjectsFromFile(objectsFilePath);
+      if (!sceneData) {
+        console.error("Scene data could not be loaded.");
+        return;
+      }
+      if (this.logicSystem && logicFilePath) {
+        await this.logicSystem.loadLogicFromFile(logicFilePath);
+      }
+      console.log(`Level "${sceneData.name}" loaded successfully.`);
+    } catch (error) {
+      console.error("Error loading level from file:", error);
+    }
+  }
 
   update(deltaTime) {
     if (this.currentScene) {
@@ -51,19 +143,20 @@ export class SceneManager {
   }
 
   render(context) {
-
     if (this.currentScene) {
-      const sortedGameObjects = this.currentScene.gameObjects.sort((a, b) => a.layer - b.layer);
-      console.log(`Рендеринг сцены "${this.currentScene.name}" с объектами:`, sortedGameObjects);
+        console.log(`Рендеринг сцены "${this.currentScene.name}" с объектами:`, this.currentScene.gameObjects);
 
-      // Рендерим каждый объект
-      sortedGameObjects.forEach((object) => {
-        if (typeof object.render === "function") {
-          object.render(context);
-        }
-      });
+        this.currentScene.gameObjects.forEach((object, index) => {
+            console.log(`Попытка рендеринга объекта ${index}:`, object);
+            if (typeof object.render === "function") {
+                object.render(context);
+                console.log(`Объект ${index} успешно отрисован.`);
+            } else {
+                console.warn(`Объект ${index} не имеет метода render:`, object);
+            }
+        });
     }
-  }
+}
 
   getCurrentScene() {
     return this.currentScene;
@@ -111,6 +204,18 @@ export class SceneManager {
     } else {
       console.error(`Сцена "${sceneName}" не существует.`);
     }
+  }
+
+  /**
+   * Пример использования logicSystem внутри SceneManager.
+   * Нужно заранее убедиться, что logicSystem != null.
+   */
+  async changeSceneWithFiles(sceneName, objectsFilePath, logicFilePath) {
+    await this.loadSceneObjectsFromFile(objectsFilePath);
+    if (this.logicSystem) {
+      await this.logicSystem.loadLogicFromFile(logicFilePath);
+    }
+    this.changeScene(sceneName);
   }
 
   changeToNextScene() {
