@@ -13,7 +13,8 @@ export class Character {
     health = 100,
     speed = 30,
     enablePhysics = false,
-    layer = 1
+    layer = 1,
+    preserveAspectRatio = false
   }) {
     this.x = x;
     this.y = y;
@@ -22,19 +23,19 @@ export class Character {
     this.color = color;
     this.health = health;
     this.speed = speed;
+    this.layer = layer;
+    this.preserveAspectRatio = preserveAspectRatio;
+
     this.currentFrameIndex = 0;
     this.frameDuration = 100;
     this.elapsedTime = 0;
     this.facingDirection = 1;
-    this.layer = layer;
 
-    // Устанавливаем спрайт, если он есть
     this.sprite = sprite ? new Image() : null;
     if (this.sprite) {
       this.sprite.src = sprite;
     }
 
-    // Устанавливаем анимации
     this.animations = {
       idle: animations.idle || [],
       run: animations.run || [],
@@ -42,24 +43,20 @@ export class Character {
       attack: animations.attack || [],
     };
 
-    if (this.animations.idle.length === 0) {
-      this.animations.idle = this.animations.run;
+    if (!this.sprite && this.animations.idle.length === 0) {
+      console.warn('Character must have either a sprite or an idle animation.');
+    }
+
+    for (const key in this.animations) {
+      this.animations[key] = this.animations[key].map((src) => {
+        const img = new Image();
+        img.src = src;
+        return img;
+      });
     }
 
     this.currentAnimation = this.sprite ? null : 'idle';
 
-    // Загружаем изображения для анимаций
-    for (let key in this.animations) {
-      if (this.animations[key].length > 0) {
-        this.animations[key] = this.animations[key].map((src) => {
-          const img = new Image();
-          img.src = src;
-          return img;
-        });
-      }
-    }
-
-    // Добавляем физику, если включена
     if (enablePhysics) {
       this.rigidBody = new RigidBody2d({
         mass: 1,
@@ -67,7 +64,6 @@ export class Character {
         isStatic: false,
       });
 
-      // Инициализируем позиции
       this.rigidBody.x = this.x;
       this.rigidBody.y = this.y;
       this.rigidBody.width = this.width;
@@ -92,18 +88,15 @@ export class Character {
 
   update(deltaTime) {
     if (this.rigidBody) {
-      // Обновляем позиции из rigidBody, если физика включена
       this.x = this.rigidBody.x;
       this.y = this.rigidBody.y;
 
-      // Обновляем направление персонажа
       if (this.rigidBody.velocityX > 0) {
         this.facingDirection = 1;
       } else if (this.rigidBody.velocityX < 0) {
         this.facingDirection = -1;
       }
 
-      // Обновляем анимации в зависимости от движения
       if (!this.rigidBody.onGround) {
         this.setAnimation('jump');
       } else if (this.rigidBody.velocityX !== 0) {
@@ -113,7 +106,6 @@ export class Character {
       }
     }
 
-    // Обновление кадров анимации
     const activeFrames = this.currentAnimation
       ? this.animations[this.currentAnimation]
       : [];
@@ -127,10 +119,27 @@ export class Character {
     }
   }
 
+  containsPoint(x, y) {
+    return (
+      x >= this.x &&
+      x <= this.x + this.width &&
+      y >= this.y &&
+      y <= this.y + this.height
+    );
+  }
+
+  getBoundingBox() {
+    return {
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height,
+    };
+  }
+
   render(context) {
     context.save();
 
-    // Инвертируем изображение при движении влево
     if (this.facingDirection === -1) {
       context.translate(this.x + this.width / 2, this.y);
       context.scale(-1, 1);
@@ -139,13 +148,25 @@ export class Character {
       context.translate(this.x, this.y);
     }
 
-    // Рендерим спрайт или анимацию
     if (this.sprite && this.sprite.complete) {
-      context.drawImage(this.sprite, 0, 0, this.width, this.height);
+      let renderWidth = this.width;
+      let renderHeight = this.height;
+
+      if (this.preserveAspectRatio) {
+        const aspectRatio = this.sprite.width / this.sprite.height;
+        if (this.width / this.height > aspectRatio) {
+          renderWidth = this.height * aspectRatio;
+        } else {
+          renderHeight = this.width / aspectRatio;
+        }
+      }
+
+      context.drawImage(this.sprite, 0, 0, renderWidth, renderHeight);
     } else {
       const activeFrames = this.currentAnimation
         ? this.animations[this.currentAnimation]
         : [];
+
       if (
         activeFrames.length > 0 &&
         activeFrames[this.currentFrameIndex].complete
@@ -174,7 +195,6 @@ export class Character {
   }
 
   die() {
-    console.log("Character died");
-    // Логика смерти персонажа
+    console.log('Character died');
   }
 }
