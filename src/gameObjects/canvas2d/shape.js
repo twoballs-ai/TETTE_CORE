@@ -53,15 +53,18 @@ export function getShapes(renderType) {
         y: params.y,
         width: params.width || 50,
         height: params.height || 100,
-        color: ColorMixin(params.color || 'blue', renderType),
-        sprite: params.sprite || null,
+        // color не передаём или передаём null
+        color: null,
+        animatedCharacter: params.animatedCharacter|| false,
+        image: params.image || null,
         animations: params.animations || {},
         health: params.health || 100,
         speed: params.speed || 30,
         enablePhysics: params.enablePhysics || false,
         layer: params.layer || 1,
       });
-    },
+   },
+   
 
     enemy: function (params) {
       return new Enemy({
@@ -70,7 +73,8 @@ export function getShapes(renderType) {
         width: params.width || 50,
         height: params.height || 100,
         color: ColorMixin(params.color || 'red', renderType),
-        sprite: params.sprite || null,
+        image: params.image || null,
+        animatedCharacter: params.animatedCharacter|| false,
         animations: params.animations || {},
         health: params.health || 50,
         speed: params.speed || 20,

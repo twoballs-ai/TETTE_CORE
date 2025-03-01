@@ -93,7 +93,7 @@ const playerLevel2 = shape2d.rectangle({
 playerLevel2.update = function(deltaTime) {
   this.x += deltaTime * 0.05;
   if (this.x > 700) {
-    console.log('You have completed level 2!');
+    // console.log('You have completed level 2!');
   }
 };
 

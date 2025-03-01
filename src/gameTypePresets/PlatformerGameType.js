@@ -78,7 +78,7 @@ export class PlatformerGameType extends GameType {
 
       if (player.health <= 0) {
         // Обрабатываем смерть игрока
-        console.log("Игрок погиб!");
+        // console.log("Игрок погиб!");
         // Здесь можно перезапустить игру или уровень
       }
     }

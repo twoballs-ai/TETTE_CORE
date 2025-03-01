@@ -9,7 +9,7 @@ export class SceneManager {
     names.forEach((name) => {
       if (!this.scenes[name]) {
         this.scenes[name] = { name, gameObjects: [] };
-        console.log(`Сцена "${name}" создана.`);
+        // console.log(`Сцена "${name}" создана.`);
       } else {
         console.warn(`Сцена "${name}" уже существует.`);
       }
@@ -19,7 +19,7 @@ export class SceneManager {
   changeScene(name) {
     if (this.scenes[name]) {
       this.currentScene = this.scenes[name];
-      console.log(`Переключено на сцену "${name}".`);
+      // console.log(`Переключено на сцену "${name}".`);
     } else {
       console.error(`Сцена "${name}" не существует.`);
     }
@@ -29,6 +29,7 @@ export class SceneManager {
     const scene = this.scenes[sceneName];
     if (scene) {
       gameObjects.forEach((obj) => {
+        console.log(obj)
         if (!scene.gameObjects.includes(obj)) {
           scene.gameObjects.push(obj);
         } else {
@@ -75,7 +76,7 @@ export class SceneManager {
       const index = scene.gameObjects.indexOf(gameObject);
       if (index !== -1) {
         scene.gameObjects.splice(index, 1);
-        console.log(`Объект удален из сцены "${sceneName}".`);
+        // console.log(`Объект удален из сцены "${sceneName}".`);
       } else {
         console.warn(`Объект не найден в сцене "${sceneName}".`);
       }
@@ -107,7 +108,7 @@ export class SceneManager {
   clearScene(sceneName) {
     if (this.scenes[sceneName]) {
       this.scenes[sceneName].gameObjects = [];
-      console.log(`Сцена "${sceneName}" очищена.`);
+      // console.log(`Сцена "${sceneName}" очищена.`);
     } else {
       console.error(`Сцена "${sceneName}" не существует.`);
     }

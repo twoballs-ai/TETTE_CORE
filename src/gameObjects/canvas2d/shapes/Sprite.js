@@ -41,7 +41,6 @@ export class Sprite extends Canvas2dGameObject {
   }
 
   render(context) {
-    console.log("11111111111111111111111111111111111111111111")
     if (this.image.complete) {
       let renderWidth = this.width;
       let renderHeight = this.height;

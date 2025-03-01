@@ -1,6 +1,6 @@
 export function ColorMixin(color, renderType) {
     // Обработка для 2D Canvas
-    console.log(renderType)
+    // console.log(renderType)
     if (renderType === '2d') {
       if (typeof color === 'string') {
         if (color in colorNames) {

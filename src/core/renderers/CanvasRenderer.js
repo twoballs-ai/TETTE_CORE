@@ -18,7 +18,7 @@ export class CanvasRenderer extends Renderer {
 
   // Рендерим объекты сцены
   // render(scene) {
-  //   console.log("sss")
+  //   // console.log("sss")
   //   this.clear(); // Очищаем экран перед отрисовкой
   
   //   // Рендерим объекты текущей сцены

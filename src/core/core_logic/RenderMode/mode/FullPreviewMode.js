@@ -15,7 +15,7 @@ export class FullPreviewMode extends BaseMode {
     const sceneNames = Object.keys(this.sceneManager.scenes);
     if (index >= 0 && index < sceneNames.length) {
       this.sceneManager.changeScene(sceneNames[index]);
-      console.log(`Previewing level: ${sceneNames[index]}`);
+      // console.log(`Previewing level: ${sceneNames[index]}`);
     }
   }
 
