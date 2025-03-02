@@ -1,6 +1,10 @@
+Вот обновленная верcия документации, где указано, что TETTE Core — это ядро движка для создания игр на JavaScript, а фронтенд находится в отдельном репозитории.
+
+---
+
 # TETTE Core
 
-TETTE Core is a core library for creating games and interactive applications, providing powerful tools and flexibility for development. The project supports working with WebGL and WebGPU, making it suitable for implementing various gaming and interactive projects. TETTE Core can be used both independently and in conjunction with a graphical user interface (GUI), which is planned to be added in the future.
+TETTE Core is the core part of a game engine for creating games and interactive applications in JavaScript. It provides powerful tools and flexibility for development and supports both WebGL and WebGPU, making it suitable for a wide range of gaming projects. TETTE Core can be used independently or integrated with a graphical user interface (GUI). For the full GUI experience, please check out our frontend at [TETTE_GUI](https://github.com/twoballs-ai/TETTE_GUI).
 
 > **Note**: The project is at an early stage of development and may currently contain significant shortcomings. We recommend waiting for a more stable release to avoid possible disappointment.
 
@@ -85,3 +89,7 @@ npm run build
 ## License
 
 This project is distributed under the MIT License. You can find the full text of the license in the [LICENSE](LICENSE) file.
+
+---
+
+This documentation now clearly states that TETTE Core is the core of a JavaScript game engine, and it points to the separate frontend repository at [TETTE_GUI](https://github.com/twoballs-ai/TETTE_GUI).

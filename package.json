@@ -1,6 +1,6 @@
 {
   "name": "tette-core",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Core functionality for the TETTE game framework.",
   "main": "./dist/tette.bundle.js",
   "module": "./src/index.js",
