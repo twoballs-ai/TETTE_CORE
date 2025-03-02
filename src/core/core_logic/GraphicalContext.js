@@ -25,7 +25,7 @@ export class GraphicalContext {
             // Если контекст нужно заново получить
             this.context = this.initializeContext(this.type);
     
-            // console.log(`Canvas resized to: ${width}x${height}`);
+            console.log(`Canvas resized to: ${width}x${height}`);
         }
     }
     

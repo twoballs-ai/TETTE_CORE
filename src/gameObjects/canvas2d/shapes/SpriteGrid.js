@@ -1,7 +1,7 @@
 import { Canvas2dGameObject } from '../Canvas2dGameObject.js';
 
 export class SpriteGrid extends Canvas2dGameObject {
-  constructor({
+ constructor({
     image,
     x,
     y,
@@ -15,25 +15,32 @@ export class SpriteGrid extends Canvas2dGameObject {
     enablePhysics = false,
     isStatic = false,
     layer = 0,
-  }) {
+}) {
     super({
-      x: x,
-      y: y,
-      width: width * repeatX + spacingX * (repeatX - 1),
-      height: height * repeatY + spacingY * (repeatY - 1),
-      color: null,
-      enablePhysics: enablePhysics,
-      isStatic: isStatic,
-      layer: layer,
+        x: x,
+        y: y,
+        width: width * repeatX + spacingX * (repeatX - 1),
+        height: height * repeatY + spacingY * (repeatY - 1),
+        color: null,
+        enablePhysics: enablePhysics,
+        isStatic: isStatic,
+        layer: layer,
     });
 
-    this.image = image;
+    if (typeof image === 'string') {
+        this.image = new Image();
+        this.image.src = image;
+        this.image.onerror = () => console.error(`Ошибка загрузки изображения для SpriteGrid: ${image}`);
+    } else {
+        this.image = image;
+    }
+
     this.repeatX = repeatX;
     this.repeatY = repeatY;
     this.spacingX = spacingX;
     this.spacingY = spacingY;
     this.preserveAspectRatio = preserveAspectRatio;
-  }
+}
 
   update(deltaTime) {
     if (this.rigidBody) {

@@ -55,7 +55,7 @@ export function getShapes(renderType) {
         height: params.height || 100,
         // color не передаём или передаём null
         color: null,
-        animatedCharacter: params.animatedCharacter|| false,
+        isAnimated: params.isAnimated|| false,
         image: params.image || null,
         animations: params.animations || {},
         health: params.health || 100,
@@ -74,7 +74,7 @@ export function getShapes(renderType) {
         height: params.height || 100,
         color: ColorMixin(params.color || 'red', renderType),
         image: params.image || null,
-        animatedCharacter: params.animatedCharacter|| false,
+        isAnimated: params.isAnimated|| false,
         animations: params.animations || {},
         health: params.health || 50,
         speed: params.speed || 20,

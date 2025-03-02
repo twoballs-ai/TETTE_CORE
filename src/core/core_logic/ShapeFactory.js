@@ -5,7 +5,7 @@ import * as shapeswebgl from '../../gameObjects/webgl/shapes/shape.js';
 // import * as shapesWebGPU3D from '../../gameObjects/shapes/webgpu/3d/shape.js';
 
 export function getShapeFactory(renderType) {
-  // console.log()
+  console.log()
   switch (renderType) {
     case '2d':
       return shapesCanvas2D.getShapes(renderType);

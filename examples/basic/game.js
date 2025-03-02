@@ -10,7 +10,7 @@ const renderType = '2d'; // Change to '2d' or 'webgl' as needed
 const shape2d = getShape2d(renderType);
 // Создаем менеджер сцен
 const sceneManager = new SceneManager();
-// console.log(sceneManager)
+console.log(sceneManager)
 // Создаем экземпляр Core
 const game = new Core({
   canvasId: 'canvas',
@@ -95,7 +95,7 @@ const playerLevel2 = shape2d.rectangle({
 playerLevel2.update = function(deltaTime) {
   this.x += deltaTime * 0.05;
   if (this.x > 700) {
-    // console.log('You have completed level 2!');
+    console.log('You have completed level 2!');
   }
 };
 

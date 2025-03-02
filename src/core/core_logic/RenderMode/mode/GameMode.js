@@ -8,7 +8,7 @@ export class GameMode extends BaseMode {
   start() {
     super.start();
     this.sceneManager.changeToFirstScene();
-    // console.log('Game started.');
+    console.log('Game started.');
   }
 
   update(deltaTime) {

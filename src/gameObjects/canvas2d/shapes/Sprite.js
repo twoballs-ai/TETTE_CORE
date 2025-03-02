@@ -3,19 +3,26 @@ import { Canvas2dGameObject } from '../Canvas2dGameObject.js';
 export class Sprite extends Canvas2dGameObject {
   constructor(params) {
     super({
-      x: params.x,
-      y: params.y,
-      width: params.width,
-      height: params.height,
-      color: null,
-      enablePhysics: params.enablePhysics || false,
-      isStatic: params.isStatic || false,
-      layer: params.layer || 0,
+        x: params.x,
+        y: params.y,
+        width: params.width,
+        height: params.height,
+        color: null,
+        enablePhysics: params.enablePhysics || false,
+        isStatic: params.isStatic || false,
+        layer: params.layer || 0,
     });
 
-    this.image = params.image;
+    if (typeof params.image === 'string') {
+        this.image = new Image();
+        this.image.src = params.image;
+        this.image.onerror = () => console.error(`Ошибка загрузки изображения: ${params.image}`);
+    } else {
+        this.image = params.image;
+    }
+
     this.preserveAspectRatio = params.preserveAspectRatio || false;
-  }
+}
 
   update(deltaTime) {
     if (this.rigidBody) {

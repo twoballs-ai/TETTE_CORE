@@ -14,7 +14,7 @@ export class Character {
     enablePhysics = false,
     layer = 1,
     preserveAspectRatio = false,
-    animatedCharacter = false, // true — использовать анимации, false — использовать спрайт (изображение)
+    isAnimated = false, // true — использовать анимации, false — использовать спрайт (изображение)
   }) {
     this.x = x;
     this.y = y;
@@ -25,7 +25,7 @@ export class Character {
     this.speed = speed;
     this.layer = layer;
     this.preserveAspectRatio = preserveAspectRatio;
-    this.animatedCharacter = animatedCharacter;
+    this.isAnimated = isAnimated;
 
     this.currentFrameIndex = 0;
     this.frameDuration = 100;
@@ -33,23 +33,28 @@ export class Character {
     this.facingDirection = 1;
 
     // Если не используется анимация, загружаем статичное изображение.
-    if (!this.animatedCharacter && image) {
-      this.image = new Image();
-      this.image.src = image;
-    } else {
+    if (!this.isAnimated) {
       this.image = null;
-    }
+      if (image) {
+          if (typeof image === 'string') {
+              this.image = new Image();
+              this.image.src = image;
+          } else if (image instanceof HTMLImageElement) {
+              this.image = image;
+          }
+      }
+  }
 
     // Если используется анимация, обрабатываем пути к кадрам.
     // Если анимация не используется, оставляем пустые массивы.
     this.animations = {
-      idle: this.animatedCharacter ? (animations.idle || []) : [],
-      run: this.animatedCharacter ? (animations.run || []) : [],
-      jump: this.animatedCharacter ? (animations.jump || []) : [],
-      attack: this.animatedCharacter ? (animations.attack || []) : [],
+      idle: this.isAnimated ? (animations.idle || []) : [],
+      run: this.isAnimated ? (animations.run || []) : [],
+      jump: this.isAnimated ? (animations.jump || []) : [],
+      attack: this.isAnimated ? (animations.attack || []) : [],
     };
 
-    if (this.animatedCharacter) {
+    if (this.isAnimated) {
       // Преобразуем пути анимаций в объекты Image.
       for (const key in this.animations) {
         this.animations[key] = this.animations[key].map((src) => {
@@ -59,16 +64,16 @@ export class Character {
         });
       }
       if (this.animations.idle.length === 0) {
-        console.warn('Character must have an idle animation when animatedCharacter is true.');
+        console.warn('Character must have an idle animation when isAnimated is true.');
       }
     } else {
       if (!this.image) {
-        console.warn('Character must have an image when animatedCharacter is false.');
+        console.warn('Character must have an image when isAnimated is false.');
       }
     }
 
     // Устанавливаем текущую анимацию для анимированных персонажей.
-    this.currentAnimation = this.animatedCharacter ? 'idle' : null;
+    this.currentAnimation = this.isAnimated ? 'idle' : null;
 
     // Если включена физика, создаём физическое тело.
     if (enablePhysics) {
@@ -88,7 +93,7 @@ export class Character {
 
   setAnimation(animationName) {
     if (
-      this.animatedCharacter &&
+      this.isAnimated &&
       this.animations[animationName] &&
       this.animations[animationName].length > 0
     ) {
@@ -120,7 +125,7 @@ export class Character {
       }
     }
 
-    if (this.animatedCharacter && this.currentAnimation) {
+    if (this.isAnimated && this.currentAnimation) {
       const activeFrames = this.animations[this.currentAnimation] || [];
       if (activeFrames.length > 0) {
         this.elapsedTime += deltaTime;
@@ -163,7 +168,7 @@ export class Character {
     }
 
     // Если не используется анимация – отрисовываем статичное изображение.
-    if (!this.animatedCharacter && this.image && this.image.complete) {
+    if (!this.isAnimated && this.image && this.image.complete) {
       let renderWidth = this.width;
       let renderHeight = this.height;
 
@@ -178,7 +183,7 @@ export class Character {
       context.drawImage(this.image, 0, 0, renderWidth, renderHeight);
     }
     // Если используется анимация – отрисовываем текущий кадр.
-    else if (this.animatedCharacter) {
+    else if (this.isAnimated) {
       const activeFrames = this.currentAnimation ? this.animations[this.currentAnimation] : [];
       if (activeFrames.length > 0 && activeFrames[this.currentFrameIndex].complete) {
         context.drawImage(activeFrames[this.currentFrameIndex], 0, 0, this.width, this.height);
@@ -200,6 +205,6 @@ export class Character {
   }
 
   die() {
-    // console.log('Character died');
+    console.log('Character died');
   }
 }

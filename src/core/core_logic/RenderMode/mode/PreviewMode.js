@@ -18,7 +18,7 @@ export class PreviewMode extends BaseMode {
     // Подготавливаем сцену для предпросмотра
     this.preparePreview();
     
-    // console.log(`Previewing level: ${this.levelName}`);
+    console.log(`Previewing level: ${this.levelName}`);
   }
 
   preparePreview() {
@@ -41,7 +41,7 @@ export class PreviewMode extends BaseMode {
   }
 
   render() {
-    // console.log("2222222222222222222222222222222222")
+    console.log("2222222222222222222222222222222222")
     this.core.renderer.clear();
     this.core.sceneManager.render(this.core.renderer.context);
 
@@ -57,7 +57,7 @@ export class PreviewMode extends BaseMode {
   stop() {
     super.stop();
   
-    // console.log(`Stopped previewing level: ${this.levelName}`);
+    console.log(`Stopped previewing level: ${this.levelName}`);
   
     // Восстанавливаем предыдущую сцену (например, сцену редактора)
     if (this.core.previousMode instanceof EditorMode) {

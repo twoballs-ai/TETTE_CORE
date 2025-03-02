@@ -2,7 +2,7 @@
 import { Sprite } from './Sprite.js';
 
 export function getShapes(renderType) {
-  // console.log(renderType)
+  console.log(renderType)
   return {
     
     // Функция для создания спрайта

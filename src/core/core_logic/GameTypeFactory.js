@@ -8,11 +8,11 @@ export class GameTypeFactory {
   }
 
   loadGameType(gameType) {
-    // console.log(`Загрузка типа игры: ${gameType}`); // Отладочный вывод
+    console.log(`Загрузка типа игры: ${gameType}`); // Отладочный вывод
     switch (gameType) {
       case 'platformer':
-        // console.log(this.core)
-        // console.log(`Создание экземпляра PlatformerGameType для: ${gameType}`);
+        console.log(this.core)
+        console.log(`Создание экземпляра PlatformerGameType для: ${gameType}`);
         return new PlatformerGameType(this.core);
       // Добавьте другие типы игр по необходимости
       default:

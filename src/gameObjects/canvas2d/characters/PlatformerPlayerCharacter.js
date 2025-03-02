@@ -21,18 +21,18 @@ export class PlatformerPlayerCharacter extends Character {
   shoot() {
     if (this.shots > 0) {
       this.shots -= 1;
-      // console.log("Выстрел произведен!");
+      console.log("Выстрел произведен!");
     } else {
-      // console.log("Нет патронов!");
+      console.log("Нет патронов!");
     }
   }
 
   useMagic(amount) {
     if (this.magic >= amount) {
       this.magic -= amount;
-      // console.log("Использована магия");
+      console.log("Использована магия");
     } else {
-      // console.log("Недостаточно магии");
+      console.log("Недостаточно магии");
     }
   }
 }

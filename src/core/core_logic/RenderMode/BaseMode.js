@@ -6,11 +6,11 @@ export class BaseMode {
   }
 
   start() {
-    // console.log(`${this.constructor.name} started.`);
+    console.log(`${this.constructor.name} started.`);
   }
 
   stop() {
-    // console.log(`${this.constructor.name} stopped.`);
+    console.log(`${this.constructor.name} stopped.`);
   }
 
   update(deltaTime) {

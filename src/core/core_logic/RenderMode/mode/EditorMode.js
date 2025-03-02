@@ -1,12 +1,13 @@
+// EditorMode.js
+
 import { BaseMode } from '../BaseMode.js';
 import { Highlighter } from '../../../core_logic/utils/Highlighter.js';
 
 export class EditorMode extends BaseMode {
-  // Принимаем второй параметр - onSelect callback
   constructor(core, onSelect) {
     super(core);
     this.selectedObject = null;
-    this.onSelect = onSelect; // Сохраняем callback для обновления Redux
+    this.onSelect = onSelect; // callback в React
   }
 
   start() {
@@ -36,10 +37,10 @@ export class EditorMode extends BaseMode {
   selectObjectAt(x, y) {
     const objects = this.sceneManager.getGameObjectsFromCurrentScene();
     this.selectedObject = objects.find(obj => obj.containsPoint?.(x, y));
-    // console.log('Selected object (from canvas):', this.selectedObject);
-    // Вызываем callback, если он задан
+
     if (this.onSelect) {
-      this.onSelect(this.selectedObject);
+      // Если объект есть, передаём его id; если нет – null
+      this.onSelect(this.selectedObject ? this.selectedObject.id : null);
     }
   }
 

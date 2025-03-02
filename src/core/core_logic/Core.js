@@ -38,7 +38,7 @@ export class Core {
       this.graphicalContext.resize(width, height);
       this.renderer.clear();
       this.sceneManager.render(this.renderer.context);
-      // console.log(`Core resized to: ${width}x${height}`);
+      console.log(`Core resized to: ${width}x${height}`);
     }
   }
 
@@ -51,7 +51,7 @@ export class Core {
   // Установка типа игры через фабрику
   setGameType(gameType) {
     if (gameType) {
-      // console.log(`Setting game type: ${gameType}`);
+      console.log(`Setting game type: ${gameType}`);
       this.gameTypeInstance = new GameTypeFactory(this).loadGameType(gameType);
       if (!this.gameTypeInstance) {
         console.error(`Error: game type ${gameType} not loaded.`);
@@ -95,7 +95,7 @@ export class Core {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
-      // console.log('Game loop stopped.');
+      console.log('Game loop stopped.');
     }
   }
 
