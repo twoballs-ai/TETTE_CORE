@@ -1,26 +1,50 @@
+// Core.js
+import { ColorMixin } from './ColorMixin.js';
 import { GraphicalContext } from './GraphicalContext.js';
 import { GameTypeFactory } from './GameTypeFactory.js';
-import { ColorMixin } from './ColorMixin.js';
 import { Highlighter } from './utils/Highlighter.js';
-import { PreviewMode } from '../core_logic/RenderMode/mode/PreviewMode.js';
-import { FullPreviewMode } from '../core_logic/RenderMode/mode/FullPreviewMode.js';
-import { GameMode } from '../core_logic/RenderMode/mode/GameMode.js';
-import { EditorMode } from '../core_logic/RenderMode/mode/EditorMode.js';
+
 export class Core {
-  constructor({ canvasId, renderType = '2d', backgroundColor = 'black', sceneManager, width = 900, height = 600 }) {
+  constructor({ 
+    canvasId, 
+    renderType = '2d', 
+    backgroundColor = 'black', 
+    sceneManager, 
+    width = 900, 
+    height = 600 
+  }) {
+    // Подготавливаем графический контекст
     this.renderType = renderType;
     const normalizedBackgroundColor = ColorMixin(backgroundColor, renderType);
-
-    this.graphicalContext = new GraphicalContext(canvasId, renderType, normalizedBackgroundColor, width, height);
+    this.graphicalContext = new GraphicalContext(
+      canvasId, 
+      renderType, 
+      normalizedBackgroundColor, 
+      width, 
+      height
+    );
     this.renderer = this.graphicalContext.getRenderer();
-    this.sceneManager = sceneManager;
 
-    this.currentMode = null; // Текущий режим
+    // SceneManager и режимы
+    this.sceneManager = sceneManager;
+    this.currentMode = null;
     this.lastTime = 0;
+
+    // Поддержка пользовательского кода
+    this.userLogic = null;  // Функция, которая вызывается на каждом кадре
+
+    // Привязка игрового цикла
     this.loop = this.loop.bind(this);
     this.animationFrameId = null;
+
+    // Дополнительно (по вашему желанию)
     this.gameTypeInstance = null;
-    this.selectedObject = null; // Текущий выделенный объект
+    this.selectedObject = null;
+  }
+
+  // Установка пользовательской логики
+  setUserLogic(logicFn) {
+    this.userLogic = logicFn;
   }
 
   // Переключение между режимами
@@ -30,38 +54,6 @@ export class Core {
     }
     this.currentMode = new ModeClass(this, ...args);
     this.currentMode.start();
-  }
-
-  // Изменение размеров канваса
-  resize(width, height) {
-    if (this.graphicalContext) {
-      this.graphicalContext.resize(width, height);
-      this.renderer.clear();
-      this.sceneManager.render(this.renderer.context);
-      console.log(`Core resized to: ${width}x${height}`);
-    }
-  }
-
-  // Установка выделенного объекта
-  setSelectedObject(object) {
-    this.selectedObject = object;
-    this.render(); // Перерисовываем сцену с новым выделением
-  }
-
-  // Установка типа игры через фабрику
-  setGameType(gameType) {
-    if (gameType) {
-      console.log(`Setting game type: ${gameType}`);
-      this.gameTypeInstance = new GameTypeFactory(this).loadGameType(gameType);
-      if (!this.gameTypeInstance) {
-        console.error(`Error: game type ${gameType} not loaded.`);
-      }
-    }
-  }
-
-  // Доступ к SceneManager
-  getSceneManager() {
-    return this.sceneManager;
   }
 
   // Запуск игрового цикла
@@ -77,20 +69,32 @@ export class Core {
     this.animationFrameId = requestAnimationFrame(this.loop);
   }
 
-  // Главный цикл игры
+  // Главный цикл
   loop(timestamp) {
     const deltaTime = timestamp - this.lastTime;
     this.lastTime = timestamp;
 
     if (this.currentMode) {
-      this.currentMode.update(deltaTime); // Обновление текущего режима
-      this.currentMode.render(); // Рендеринг текущего режима
+      // Обновление текущего режима
+      this.currentMode.update(deltaTime);
+
+      // Если задан пользовательский скрипт — вызываем
+      if (this.userLogic) {
+        try {
+          const objects = this.sceneManager.getGameObjectsFromCurrentScene();
+          this.userLogic(objects, this, deltaTime);
+        } catch (err) {
+          console.error('Ошибка в пользовательском коде:', err);
+        }
+      }
+
+      // Рендер режима
+      this.currentMode.render();
     }
 
     this.animationFrameId = requestAnimationFrame(this.loop);
   }
 
-  // Остановка игрового цикла
   stop() {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
@@ -99,8 +103,25 @@ export class Core {
     }
   }
 
-  // Обновление текущего состояния (неявно используется режимами)
+  // Изменение размеров канваса
+  resize(width, height) {
+    if (this.graphicalContext) {
+      this.graphicalContext.resize(width, height);
+      this.renderer.clear();
+      this.sceneManager.render(this.renderer.context);
+      console.log(`Core resized to: ${width}x${height}`);
+    }
+  }
+
+  // Установка выделенного объекта (для редактора)
+  setSelectedObject(object) {
+    this.selectedObject = object;
+    this.render();
+  }
+
+  // Пример метода update (необязательно использовать)
   update(deltaTime) {
+    // Если есть что-то глобальное
     if (this.gameTypeInstance && this.gameTypeInstance.update) {
       this.gameTypeInstance.update(deltaTime);
     }
@@ -108,11 +129,12 @@ export class Core {
     this.render();
   }
 
-  // Рендеринг текущего состояния (неявно используется режимами)
+  // Рендер сцены
   render() {
     this.renderer.clear();
     this.sceneManager.render(this.renderer.context);
 
+    // Подсветка выделенного объекта (для EditorMode)
     if (this.selectedObject) {
       Highlighter.highlightObject(
         this.renderer.context,
@@ -120,6 +142,20 @@ export class Core {
         'purple',
         'rgba(200, 100, 255, 0.2)'
       );
+    }
+  }
+
+  getSceneManager() {
+    return this.sceneManager;
+  }
+
+  setGameType(gameType) {
+    if (gameType) {
+      console.log(`Setting game type: ${gameType}`);
+      this.gameTypeInstance = new GameTypeFactory(this).loadGameType(gameType);
+      if (!this.gameTypeInstance) {
+        console.error(`Error: game type ${gameType} not loaded.`);
+      }
     }
   }
 }
